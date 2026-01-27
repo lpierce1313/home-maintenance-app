@@ -1,0 +1,47 @@
+'use server'
+
+import { auth } from "@/auth";
+import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
+
+export async function createHomeAction(formData: FormData) {
+  const session = await auth();
+  
+  if (!session?.user?.id) {
+    throw new Error("You must be logged in to create a home.");
+  }
+
+  const nickname = formData.get("nickname") as string;
+  const address = formData.get("address") as string;
+
+  try {
+    await prisma.home.create({
+      data: {
+        nickname,
+        address,
+        userId: session.user.id,
+      },
+    });
+
+    // This tells Next.js to refresh the homepage data immediately
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to create home:", error);
+    return { success: false, error: "Database error" };
+  }
+}
+
+export async function deleteHomeAction(homeId: string) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  await prisma.home.delete({
+    where: {
+      id: homeId,
+      userId: session.user.id,
+    },
+  });
+
+  revalidatePath("/");
+}
