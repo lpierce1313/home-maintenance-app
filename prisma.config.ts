@@ -5,8 +5,6 @@ import { resolve } from 'path';
 // Force reload the .env file from disk every single time
 dotenv.config({ path: resolve(process.cwd(), '.env'), override: true });
 
-console.log(">>> LIVE RELOAD URL:", process.env.DATABASE_URL);
-
 export default defineConfig({
   schema: 'prisma/schema.prisma',
   datasource: {
