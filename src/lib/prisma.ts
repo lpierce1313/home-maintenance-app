@@ -10,13 +10,6 @@ if (!connectionString) {
   throw new Error("DATABASE_URL is missing")
 }
 
-// const pool = new Pool({ 
-//   connectionString,
-//   ssl: {
-//     rejectUnauthorized: false
-//   }
-// })
-
 const pool = new Pool({
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),

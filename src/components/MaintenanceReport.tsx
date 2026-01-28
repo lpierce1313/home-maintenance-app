@@ -1,5 +1,5 @@
+import { HomeWithTasksAndLogs } from '@/lib/types';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import { HomeWithTasksAndLogs } from '@/app/actions/homeActions';
 
 const styles = StyleSheet.create({
   page: { 

@@ -4,7 +4,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import { Button, CircularProgress } from '@mui/material';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { MaintenanceReport } from './MaintenanceReport';
-import { HomeWithTasksAndLogs } from '@/app/actions/homeActions';
+import { HomeWithTasksAndLogs } from '@/lib/types';
 
 export default function ExportButton({ home }: { home: HomeWithTasksAndLogs }) {
   const [isClient, setIsClient] = useState(false);
