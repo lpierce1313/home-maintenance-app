@@ -31,19 +31,20 @@ interface Props {
 export default function HomeDetailsClient({ home, allUserProviders }: Props) {
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-    // Derive categories from data
     const categories = ["All", ...Array.from(new Set(home.tasks.map(t => t.category || "General")))];
 
-    // Filter tasks
     const filteredTasks = selectedCategory === "All"
         ? home.tasks
-        : home.tasks.filter(t => (t.category || "General") === selectedCategory);
+        : home.tasks.filter(t => (t.category || "General") === selectedCategory).sort((a, b) =>
+        new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+    );
 
-    // Stats logic
-    const totalTasks = home.tasks.length;
-    const upToDateTasks = home.tasks.filter(t => new Date() <= new Date(t.dueDate)).length;
+    const totalTasks = filteredTasks.length;
+    const now = new Date();
+    const upToDateTasks = filteredTasks.filter(t => now <= new Date(t.dueDate)).length;
+
     const score = totalTasks > 0 ? Math.round((upToDateTasks / totalTasks) * 100) : 100;
-    const totalInvested = home.tasks.reduce((acc, t) => acc + t.logs.reduce((sum, log) => sum + (log.cost || 0), 0), 0);
+    const totalInvested = filteredTasks.reduce((acc, t) => acc + t.logs.reduce((sum, log) => sum + (log.cost || 0), 0), 0);
 
     return (
         <Container maxWidth="md" sx={{ py: 4 }}>
@@ -100,7 +101,27 @@ export default function HomeDetailsClient({ home, allUserProviders }: Props) {
                                             <Chip label={task.category || 'General'} size="small" variant="outlined" />
                                         </Stack>
                                     }
-                                    secondary={task.frequency}
+                                    secondary={
+                                        <Box component="span" sx={{ display: 'block' }}>
+                                            <Typography
+                                                component="span"
+                                                variant="body2"
+                                                display="block"
+                                                sx={{ fontWeight: 'light', textTransform: 'capitalize' }}
+                                            >
+                                                {task.frequency}
+                                            </Typography>
+                                            <Typography
+                                                component="span"
+                                                variant="caption"
+                                                color="error.main"
+                                                display="block"
+                                                sx={{ fontWeight: 'bold', mt: 0.5 }}
+                                            >
+                                                Next Due: {new Date(task.dueDate).toLocaleDateString()}
+                                            </Typography>
+                                        </Box>
+                                    }
                                 />
                                 <Stack direction="row" spacing={1}>
                                     <CompleteTaskDialog task={task} homeId={home.id} existingProviders={allUserProviders} />
