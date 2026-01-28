@@ -130,14 +130,14 @@ export default async function HomeProjectsPage({
                 <Box key={project.id}>
                   <ListItem sx={{ py: 2 }}>
                     <ListItemIcon>
-                      <Avatar sx={{ bgcolor: 'success.soft', color: 'success.main' }}>
+                      <Avatar sx={{ bgcolor: 'success.main' }}>
                         <CheckCircleIcon fontSize="small" />
                       </Avatar>
                     </ListItemIcon>
                     <ListItemText
-                      primary={<Typography fontWeight="bold">{project.title}</Typography>}
+                      primary={<Typography component="span" fontWeight="bold">{project.title}</Typography>}
                       secondary={
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography component="span" variant="body2" color="text.secondary">
                           Completed on {project.completedAt ? new Date(project.completedAt).toLocaleDateString() : 'N/A'} • ${project.estimatedCost?.toLocaleString() || '0'}
                         </Typography>
                       }
