@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Stack, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { updateHomeAction } from '@/app/actions/homeActions';
-import { Home } from '@prisma/client';
+import { Home } from '@/generated/client/client';
 
 export default function EditHomeDialog({ home }: { home: Home }) {
   const [open, setOpen] = useState(false);
