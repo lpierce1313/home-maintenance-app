@@ -136,7 +136,7 @@ export default async function HomeDetailsPage(props: { params: Promise<{ id: str
               <Box key={task.id}>
                 <ListItem sx={{ py: 2.5 }}>
                   <ListItemIcon sx={{ minWidth: 56 }}>
-                    <Tooltip title={statusLabel || "Up to date"}>
+                    <Tooltip title={statusLabel || "Current"}>
                       <Avatar
                         sx={{
                           bgcolor: isPastDue ? `${statusColor}.light` : 'transparent',
