@@ -29,7 +29,9 @@ export default function AddHomeDialog() {
         Add Home
       </Button>
 
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs">
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs"  PaperProps={{
+        sx: { overflow: 'hidden' }
+      }}>
         <form action={handleAction}>
           <DialogTitle>Add New Home</DialogTitle>
           <DialogContent>

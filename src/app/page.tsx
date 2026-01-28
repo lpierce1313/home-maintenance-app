@@ -131,7 +131,7 @@ export default async function HomePage() {
 
                 <CardContent sx={{ p: 3 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <Avatar sx={{ bgcolor: 'primary.light', mr: 2, color: 'primary.main' }}>
+                    <Avatar sx={{ bgcolor: 'primary.light', mr: 2 }}>
                       <HomeIcon />
                     </Avatar>
                     <Box sx={{ pr: 4 }}>

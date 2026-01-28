@@ -15,7 +15,9 @@ export default function EditHomeDialog({ home }: { home: Home }) {
         <EditIcon fontSize="small" />
       </IconButton>
 
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs">
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs"  PaperProps={{
+        sx: { overflow: 'hidden' }
+      }}>
         <form action={async (formData) => {
           await updateHomeAction(formData);
           setOpen(false);

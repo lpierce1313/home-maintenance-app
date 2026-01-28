@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 import {
   Container, Typography, Stack, Button, Box, Divider,
-  Chip, Paper, List, ListItem, ListItemText, ListItemIcon, Avatar, Tooltip
+  Chip, Paper, List, ListItem, ListItemText, ListItemIcon, Avatar, Tooltip,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BuildIcon from '@mui/icons-material/Build';
@@ -13,17 +13,15 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InsightsIcon from '@mui/icons-material/Insights';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 
-// Components
 import AddTaskDialog from '@/components/AddTaskDialog';
 import CompleteTaskDialog from '@/components/CompleteTaskDialog';
 import DeleteTaskDialog from '@/components/DeleteTaskDialog';
 import EditHomeDialog from '@/components/EditHomeDialog';
 import EditTaskDialog from '@/components/EditTaskDialog';
 import TaskHistoryDrawer from '@/components/TaskHistoryDrawer';
-import ProviderDirectory from '@/components/ProviderDirectory';
+import ExportButton from "@/components/ExportPdfButton";
+import { getHomeData } from "@/app/actions/homeActions";
 
-// Actions
-import { getProviderStats } from '@/app/actions/providerActions';
 
 export default async function HomeDetailsPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -32,21 +30,10 @@ export default async function HomeDetailsPage(props: { params: Promise<{ id: str
 
   if (!session) redirect("/login");
 
-  const home = await prisma.home.findUnique({
-    where: { id: homeId, userId: session.user?.id },
-    include: {
-      tasks: {
-        orderBy: { dueDate: 'asc' },
-        include: {
-          logs: { orderBy: { completedAt: 'desc' } }
-        }
-      }
-    }
-  });
+  const home = await getHomeData(homeId, session.user?.id || '');
 
   if (!home) notFound();
 
-  // --- STATS LOGIC ---
   const totalTasks = home.tasks.length;
   const upToDateTasks = home.tasks.filter(t => new Date() <= new Date(t.dueDate)).length;
   const score = totalTasks > 0 ? Math.round((upToDateTasks / totalTasks) * 100) : 100;
@@ -83,7 +70,7 @@ export default async function HomeDetailsPage(props: { params: Promise<{ id: str
           </Stack>
           <Typography color="text.secondary">{home.address || 'No address set'}</Typography>
         </Box>
-        <AddTaskDialog homeId={homeId} />
+        <ExportButton home={home} />
       </Stack>
 
       {/* STATS CHIP ROW */}
@@ -107,7 +94,10 @@ export default async function HomeDetailsPage(props: { params: Promise<{ id: str
         />
       </Stack>
 
-      <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>Maintenance Tasks</Typography>
+      <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1 }}>
+        <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>Maintenance Tasks</Typography>
+        <AddTaskDialog homeId={homeId} />
+      </Stack>
 
       {/* TASK LIST SECTION */}
       <Paper elevation={0} variant="outlined" sx={{ borderRadius: 3, overflow: 'hidden' }}>
@@ -187,7 +177,7 @@ export default async function HomeDetailsPage(props: { params: Promise<{ id: str
                       secondary={
                         <Box component="div" sx={{ mt: 0.5 }}>
                           <Typography variant="caption" color="text.secondary" display="block">
-                            {task.frequency} • {task.description || 'No notes'}
+                            {task.frequency} - {task.description || 'No notes'}
                           </Typography>
                           <Typography
                             variant="caption"
