@@ -39,6 +39,8 @@ model MaintenanceLog {
   performedBy  String?
   taskId       String
   fileUrl     String?
+  providerId    String?
+  provider      ServiceProvider? @relation(fields: [providerId], references: [id])
   task         Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
 }
 
@@ -51,6 +53,23 @@ model User {
   accounts      Account[]
   homes         Home[]
   sessions      Session[]
+  providers ServiceProvider[]
+}
+
+model ServiceProvider {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  email     String?
+  address   String?
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  logs      MaintenanceLog[]
+  createdAt DateTime @default(now())
+
+  @@unique([name, userId]) // Unique per user, not per home
 }
 
 model Account {

@@ -1,4 +1,5 @@
 'use server'
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -40,35 +41,41 @@ export async function createTaskAction(formData: FormData) {
 }
 
 export async function completeTaskAction(formData: FormData) {
-  const taskId = formData.get("taskId") as string;
-  const homeId = formData.get("homeId") as string;
-  const fileUrl = formData.get("fileUrl") as string; // Received from the hidden input
-  const cost = parseFloat(formData.get("cost") as string || "0");
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  const workerType = formData.get("workerType") as string;
+  const providerId = formData.get("providerId") as string; 
+  const companyName = formData.get("companyName") as string;
+
+  let finalProviderId: string | undefined = undefined;
+
+  if (workerType === "company") {
+    if (providerId && providerId !== "undefined") {
+      finalProviderId = providerId;
+    } else if (companyName) {
+      // Create new App-Wide Provider Entity
+      const newPro = await prisma.serviceProvider.create({
+        data: {
+          name: companyName,
+          userId: session.user.id, // Linked to User
+          phone: formData.get("providerPhone") as string,
+          email: formData.get("providerEmail") as string,
+        }
+      });
+      finalProviderId = newPro.id;
+    }
+  }
 
   await prisma.maintenanceLog.create({
     data: {
-      taskId,
-      cost,
-      fileUrl,
-      performedBy: formData.get("performedBy") as string,
+      taskId: formData.get("taskId") as string,
+      cost: parseFloat(formData.get("cost") as string || "0"),
       comment: formData.get("comment") as string,
+      fileUrl: formData.get("fileUrl") as string,
+      providerId: finalProviderId,
     }
   });
-
-  // 2. Set new Due Date
-  const task = await prisma.task.findUnique({ where: { id: taskId } });
-  if (task) {
-    const newDue = new Date(); // Next cycle starts from today (completion date)
-    if (task.frequency === 'monthly') newDue.setMonth(newDue.getMonth() + 1);
-    else if (task.frequency === 'quarterly') newDue.setMonth(newDue.getMonth() + 3);
-    else if (task.frequency === 'annually') newDue.setFullYear(newDue.getFullYear() + 1);
-
-    await prisma.task.update({
-      where: { id: taskId },
-      data: { dueDate: newDue, lastDone: new Date() }
-    });
-  }
-  revalidatePath(`/homes/${homeId}`);
 }
 
 export async function deleteTaskAction(taskId: string, homeId: string) {

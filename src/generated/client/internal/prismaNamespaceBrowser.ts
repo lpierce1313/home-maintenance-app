@@ -55,6 +55,7 @@ export const ModelName = {
   Task: 'Task',
   MaintenanceLog: 'MaintenanceLog',
   User: 'User',
+  ServiceProvider: 'ServiceProvider',
   Account: 'Account',
   Session: 'Session'
 } as const
@@ -108,7 +109,8 @@ export const MaintenanceLogScalarFieldEnum = {
   cost: 'cost',
   performedBy: 'performedBy',
   taskId: 'taskId',
-  fileUrl: 'fileUrl'
+  fileUrl: 'fileUrl',
+  providerId: 'providerId'
 } as const
 
 export type MaintenanceLogScalarFieldEnum = (typeof MaintenanceLogScalarFieldEnum)[keyof typeof MaintenanceLogScalarFieldEnum]
@@ -123,6 +125,19 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const ServiceProviderScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  email: 'email',
+  address: 'address',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ServiceProviderScalarFieldEnum = (typeof ServiceProviderScalarFieldEnum)[keyof typeof ServiceProviderScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {

@@ -42,6 +42,7 @@ export type MaintenanceLogMinAggregateOutputType = {
   performedBy: string | null
   taskId: string | null
   fileUrl: string | null
+  providerId: string | null
 }
 
 export type MaintenanceLogMaxAggregateOutputType = {
@@ -52,6 +53,7 @@ export type MaintenanceLogMaxAggregateOutputType = {
   performedBy: string | null
   taskId: string | null
   fileUrl: string | null
+  providerId: string | null
 }
 
 export type MaintenanceLogCountAggregateOutputType = {
@@ -62,6 +64,7 @@ export type MaintenanceLogCountAggregateOutputType = {
   performedBy: number
   taskId: number
   fileUrl: number
+  providerId: number
   _all: number
 }
 
@@ -82,6 +85,7 @@ export type MaintenanceLogMinAggregateInputType = {
   performedBy?: true
   taskId?: true
   fileUrl?: true
+  providerId?: true
 }
 
 export type MaintenanceLogMaxAggregateInputType = {
@@ -92,6 +96,7 @@ export type MaintenanceLogMaxAggregateInputType = {
   performedBy?: true
   taskId?: true
   fileUrl?: true
+  providerId?: true
 }
 
 export type MaintenanceLogCountAggregateInputType = {
@@ -102,6 +107,7 @@ export type MaintenanceLogCountAggregateInputType = {
   performedBy?: true
   taskId?: true
   fileUrl?: true
+  providerId?: true
   _all?: true
 }
 
@@ -199,6 +205,7 @@ export type MaintenanceLogGroupByOutputType = {
   performedBy: string | null
   taskId: string
   fileUrl: string | null
+  providerId: string | null
   _count: MaintenanceLogCountAggregateOutputType | null
   _avg: MaintenanceLogAvgAggregateOutputType | null
   _sum: MaintenanceLogSumAggregateOutputType | null
@@ -232,6 +239,8 @@ export type MaintenanceLogWhereInput = {
   performedBy?: Prisma.StringNullableFilter<"MaintenanceLog"> | string | null
   taskId?: Prisma.StringFilter<"MaintenanceLog"> | string
   fileUrl?: Prisma.StringNullableFilter<"MaintenanceLog"> | string | null
+  providerId?: Prisma.StringNullableFilter<"MaintenanceLog"> | string | null
+  provider?: Prisma.XOR<Prisma.ServiceProviderNullableScalarRelationFilter, Prisma.ServiceProviderWhereInput> | null
   task?: Prisma.XOR<Prisma.TaskScalarRelationFilter, Prisma.TaskWhereInput>
 }
 
@@ -243,6 +252,8 @@ export type MaintenanceLogOrderByWithRelationInput = {
   performedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   taskId?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  provider?: Prisma.ServiceProviderOrderByWithRelationInput
   task?: Prisma.TaskOrderByWithRelationInput
 }
 
@@ -257,6 +268,8 @@ export type MaintenanceLogWhereUniqueInput = Prisma.AtLeast<{
   performedBy?: Prisma.StringNullableFilter<"MaintenanceLog"> | string | null
   taskId?: Prisma.StringFilter<"MaintenanceLog"> | string
   fileUrl?: Prisma.StringNullableFilter<"MaintenanceLog"> | string | null
+  providerId?: Prisma.StringNullableFilter<"MaintenanceLog"> | string | null
+  provider?: Prisma.XOR<Prisma.ServiceProviderNullableScalarRelationFilter, Prisma.ServiceProviderWhereInput> | null
   task?: Prisma.XOR<Prisma.TaskScalarRelationFilter, Prisma.TaskWhereInput>
 }, "id">
 
@@ -268,6 +281,7 @@ export type MaintenanceLogOrderByWithAggregationInput = {
   performedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   taskId?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.MaintenanceLogCountOrderByAggregateInput
   _avg?: Prisma.MaintenanceLogAvgOrderByAggregateInput
   _max?: Prisma.MaintenanceLogMaxOrderByAggregateInput
@@ -286,6 +300,7 @@ export type MaintenanceLogScalarWhereWithAggregatesInput = {
   performedBy?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceLog"> | string | null
   taskId?: Prisma.StringWithAggregatesFilter<"MaintenanceLog"> | string
   fileUrl?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceLog"> | string | null
+  providerId?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceLog"> | string | null
 }
 
 export type MaintenanceLogCreateInput = {
@@ -295,6 +310,7 @@ export type MaintenanceLogCreateInput = {
   cost?: number | null
   performedBy?: string | null
   fileUrl?: string | null
+  provider?: Prisma.ServiceProviderCreateNestedOneWithoutLogsInput
   task: Prisma.TaskCreateNestedOneWithoutLogsInput
 }
 
@@ -306,6 +322,7 @@ export type MaintenanceLogUncheckedCreateInput = {
   performedBy?: string | null
   taskId: string
   fileUrl?: string | null
+  providerId?: string | null
 }
 
 export type MaintenanceLogUpdateInput = {
@@ -315,6 +332,7 @@ export type MaintenanceLogUpdateInput = {
   cost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   performedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.ServiceProviderUpdateOneWithoutLogsNestedInput
   task?: Prisma.TaskUpdateOneRequiredWithoutLogsNestedInput
 }
 
@@ -326,6 +344,7 @@ export type MaintenanceLogUncheckedUpdateInput = {
   performedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taskId?: Prisma.StringFieldUpdateOperationsInput | string
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type MaintenanceLogCreateManyInput = {
@@ -336,6 +355,7 @@ export type MaintenanceLogCreateManyInput = {
   performedBy?: string | null
   taskId: string
   fileUrl?: string | null
+  providerId?: string | null
 }
 
 export type MaintenanceLogUpdateManyMutationInput = {
@@ -355,6 +375,7 @@ export type MaintenanceLogUncheckedUpdateManyInput = {
   performedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taskId?: Prisma.StringFieldUpdateOperationsInput | string
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type MaintenanceLogListRelationFilter = {
@@ -375,6 +396,7 @@ export type MaintenanceLogCountOrderByAggregateInput = {
   performedBy?: Prisma.SortOrder
   taskId?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
 }
 
 export type MaintenanceLogAvgOrderByAggregateInput = {
@@ -389,6 +411,7 @@ export type MaintenanceLogMaxOrderByAggregateInput = {
   performedBy?: Prisma.SortOrder
   taskId?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
 }
 
 export type MaintenanceLogMinOrderByAggregateInput = {
@@ -399,6 +422,7 @@ export type MaintenanceLogMinOrderByAggregateInput = {
   performedBy?: Prisma.SortOrder
   taskId?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
 }
 
 export type MaintenanceLogSumOrderByAggregateInput = {
@@ -455,6 +479,48 @@ export type NullableFloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type MaintenanceLogCreateNestedManyWithoutProviderInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceLogCreateWithoutProviderInput, Prisma.MaintenanceLogUncheckedCreateWithoutProviderInput> | Prisma.MaintenanceLogCreateWithoutProviderInput[] | Prisma.MaintenanceLogUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.MaintenanceLogCreateOrConnectWithoutProviderInput | Prisma.MaintenanceLogCreateOrConnectWithoutProviderInput[]
+  createMany?: Prisma.MaintenanceLogCreateManyProviderInputEnvelope
+  connect?: Prisma.MaintenanceLogWhereUniqueInput | Prisma.MaintenanceLogWhereUniqueInput[]
+}
+
+export type MaintenanceLogUncheckedCreateNestedManyWithoutProviderInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceLogCreateWithoutProviderInput, Prisma.MaintenanceLogUncheckedCreateWithoutProviderInput> | Prisma.MaintenanceLogCreateWithoutProviderInput[] | Prisma.MaintenanceLogUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.MaintenanceLogCreateOrConnectWithoutProviderInput | Prisma.MaintenanceLogCreateOrConnectWithoutProviderInput[]
+  createMany?: Prisma.MaintenanceLogCreateManyProviderInputEnvelope
+  connect?: Prisma.MaintenanceLogWhereUniqueInput | Prisma.MaintenanceLogWhereUniqueInput[]
+}
+
+export type MaintenanceLogUpdateManyWithoutProviderNestedInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceLogCreateWithoutProviderInput, Prisma.MaintenanceLogUncheckedCreateWithoutProviderInput> | Prisma.MaintenanceLogCreateWithoutProviderInput[] | Prisma.MaintenanceLogUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.MaintenanceLogCreateOrConnectWithoutProviderInput | Prisma.MaintenanceLogCreateOrConnectWithoutProviderInput[]
+  upsert?: Prisma.MaintenanceLogUpsertWithWhereUniqueWithoutProviderInput | Prisma.MaintenanceLogUpsertWithWhereUniqueWithoutProviderInput[]
+  createMany?: Prisma.MaintenanceLogCreateManyProviderInputEnvelope
+  set?: Prisma.MaintenanceLogWhereUniqueInput | Prisma.MaintenanceLogWhereUniqueInput[]
+  disconnect?: Prisma.MaintenanceLogWhereUniqueInput | Prisma.MaintenanceLogWhereUniqueInput[]
+  delete?: Prisma.MaintenanceLogWhereUniqueInput | Prisma.MaintenanceLogWhereUniqueInput[]
+  connect?: Prisma.MaintenanceLogWhereUniqueInput | Prisma.MaintenanceLogWhereUniqueInput[]
+  update?: Prisma.MaintenanceLogUpdateWithWhereUniqueWithoutProviderInput | Prisma.MaintenanceLogUpdateWithWhereUniqueWithoutProviderInput[]
+  updateMany?: Prisma.MaintenanceLogUpdateManyWithWhereWithoutProviderInput | Prisma.MaintenanceLogUpdateManyWithWhereWithoutProviderInput[]
+  deleteMany?: Prisma.MaintenanceLogScalarWhereInput | Prisma.MaintenanceLogScalarWhereInput[]
+}
+
+export type MaintenanceLogUncheckedUpdateManyWithoutProviderNestedInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceLogCreateWithoutProviderInput, Prisma.MaintenanceLogUncheckedCreateWithoutProviderInput> | Prisma.MaintenanceLogCreateWithoutProviderInput[] | Prisma.MaintenanceLogUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.MaintenanceLogCreateOrConnectWithoutProviderInput | Prisma.MaintenanceLogCreateOrConnectWithoutProviderInput[]
+  upsert?: Prisma.MaintenanceLogUpsertWithWhereUniqueWithoutProviderInput | Prisma.MaintenanceLogUpsertWithWhereUniqueWithoutProviderInput[]
+  createMany?: Prisma.MaintenanceLogCreateManyProviderInputEnvelope
+  set?: Prisma.MaintenanceLogWhereUniqueInput | Prisma.MaintenanceLogWhereUniqueInput[]
+  disconnect?: Prisma.MaintenanceLogWhereUniqueInput | Prisma.MaintenanceLogWhereUniqueInput[]
+  delete?: Prisma.MaintenanceLogWhereUniqueInput | Prisma.MaintenanceLogWhereUniqueInput[]
+  connect?: Prisma.MaintenanceLogWhereUniqueInput | Prisma.MaintenanceLogWhereUniqueInput[]
+  update?: Prisma.MaintenanceLogUpdateWithWhereUniqueWithoutProviderInput | Prisma.MaintenanceLogUpdateWithWhereUniqueWithoutProviderInput[]
+  updateMany?: Prisma.MaintenanceLogUpdateManyWithWhereWithoutProviderInput | Prisma.MaintenanceLogUpdateManyWithWhereWithoutProviderInput[]
+  deleteMany?: Prisma.MaintenanceLogScalarWhereInput | Prisma.MaintenanceLogScalarWhereInput[]
+}
+
 export type MaintenanceLogCreateWithoutTaskInput = {
   id?: string
   completedAt?: Date | string
@@ -462,6 +528,7 @@ export type MaintenanceLogCreateWithoutTaskInput = {
   cost?: number | null
   performedBy?: string | null
   fileUrl?: string | null
+  provider?: Prisma.ServiceProviderCreateNestedOneWithoutLogsInput
 }
 
 export type MaintenanceLogUncheckedCreateWithoutTaskInput = {
@@ -471,6 +538,7 @@ export type MaintenanceLogUncheckedCreateWithoutTaskInput = {
   cost?: number | null
   performedBy?: string | null
   fileUrl?: string | null
+  providerId?: string | null
 }
 
 export type MaintenanceLogCreateOrConnectWithoutTaskInput = {
@@ -510,6 +578,53 @@ export type MaintenanceLogScalarWhereInput = {
   performedBy?: Prisma.StringNullableFilter<"MaintenanceLog"> | string | null
   taskId?: Prisma.StringFilter<"MaintenanceLog"> | string
   fileUrl?: Prisma.StringNullableFilter<"MaintenanceLog"> | string | null
+  providerId?: Prisma.StringNullableFilter<"MaintenanceLog"> | string | null
+}
+
+export type MaintenanceLogCreateWithoutProviderInput = {
+  id?: string
+  completedAt?: Date | string
+  comment?: string | null
+  cost?: number | null
+  performedBy?: string | null
+  fileUrl?: string | null
+  task: Prisma.TaskCreateNestedOneWithoutLogsInput
+}
+
+export type MaintenanceLogUncheckedCreateWithoutProviderInput = {
+  id?: string
+  completedAt?: Date | string
+  comment?: string | null
+  cost?: number | null
+  performedBy?: string | null
+  taskId: string
+  fileUrl?: string | null
+}
+
+export type MaintenanceLogCreateOrConnectWithoutProviderInput = {
+  where: Prisma.MaintenanceLogWhereUniqueInput
+  create: Prisma.XOR<Prisma.MaintenanceLogCreateWithoutProviderInput, Prisma.MaintenanceLogUncheckedCreateWithoutProviderInput>
+}
+
+export type MaintenanceLogCreateManyProviderInputEnvelope = {
+  data: Prisma.MaintenanceLogCreateManyProviderInput | Prisma.MaintenanceLogCreateManyProviderInput[]
+  skipDuplicates?: boolean
+}
+
+export type MaintenanceLogUpsertWithWhereUniqueWithoutProviderInput = {
+  where: Prisma.MaintenanceLogWhereUniqueInput
+  update: Prisma.XOR<Prisma.MaintenanceLogUpdateWithoutProviderInput, Prisma.MaintenanceLogUncheckedUpdateWithoutProviderInput>
+  create: Prisma.XOR<Prisma.MaintenanceLogCreateWithoutProviderInput, Prisma.MaintenanceLogUncheckedCreateWithoutProviderInput>
+}
+
+export type MaintenanceLogUpdateWithWhereUniqueWithoutProviderInput = {
+  where: Prisma.MaintenanceLogWhereUniqueInput
+  data: Prisma.XOR<Prisma.MaintenanceLogUpdateWithoutProviderInput, Prisma.MaintenanceLogUncheckedUpdateWithoutProviderInput>
+}
+
+export type MaintenanceLogUpdateManyWithWhereWithoutProviderInput = {
+  where: Prisma.MaintenanceLogScalarWhereInput
+  data: Prisma.XOR<Prisma.MaintenanceLogUpdateManyMutationInput, Prisma.MaintenanceLogUncheckedUpdateManyWithoutProviderInput>
 }
 
 export type MaintenanceLogCreateManyTaskInput = {
@@ -519,6 +634,7 @@ export type MaintenanceLogCreateManyTaskInput = {
   cost?: number | null
   performedBy?: string | null
   fileUrl?: string | null
+  providerId?: string | null
 }
 
 export type MaintenanceLogUpdateWithoutTaskInput = {
@@ -528,6 +644,7 @@ export type MaintenanceLogUpdateWithoutTaskInput = {
   cost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   performedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.ServiceProviderUpdateOneWithoutLogsNestedInput
 }
 
 export type MaintenanceLogUncheckedUpdateWithoutTaskInput = {
@@ -537,6 +654,7 @@ export type MaintenanceLogUncheckedUpdateWithoutTaskInput = {
   cost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   performedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type MaintenanceLogUncheckedUpdateManyWithoutTaskInput = {
@@ -545,6 +663,47 @@ export type MaintenanceLogUncheckedUpdateManyWithoutTaskInput = {
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   performedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type MaintenanceLogCreateManyProviderInput = {
+  id?: string
+  completedAt?: Date | string
+  comment?: string | null
+  cost?: number | null
+  performedBy?: string | null
+  taskId: string
+  fileUrl?: string | null
+}
+
+export type MaintenanceLogUpdateWithoutProviderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  performedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  task?: Prisma.TaskUpdateOneRequiredWithoutLogsNestedInput
+}
+
+export type MaintenanceLogUncheckedUpdateWithoutProviderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  performedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taskId?: Prisma.StringFieldUpdateOperationsInput | string
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type MaintenanceLogUncheckedUpdateManyWithoutProviderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  performedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taskId?: Prisma.StringFieldUpdateOperationsInput | string
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -558,6 +717,8 @@ export type MaintenanceLogSelect<ExtArgs extends runtime.Types.Extensions.Intern
   performedBy?: boolean
   taskId?: boolean
   fileUrl?: boolean
+  providerId?: boolean
+  provider?: boolean | Prisma.MaintenanceLog$providerArgs<ExtArgs>
   task?: boolean | Prisma.TaskDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["maintenanceLog"]>
 
@@ -569,6 +730,8 @@ export type MaintenanceLogSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   performedBy?: boolean
   taskId?: boolean
   fileUrl?: boolean
+  providerId?: boolean
+  provider?: boolean | Prisma.MaintenanceLog$providerArgs<ExtArgs>
   task?: boolean | Prisma.TaskDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["maintenanceLog"]>
 
@@ -580,6 +743,8 @@ export type MaintenanceLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   performedBy?: boolean
   taskId?: boolean
   fileUrl?: boolean
+  providerId?: boolean
+  provider?: boolean | Prisma.MaintenanceLog$providerArgs<ExtArgs>
   task?: boolean | Prisma.TaskDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["maintenanceLog"]>
 
@@ -591,22 +756,27 @@ export type MaintenanceLogSelectScalar = {
   performedBy?: boolean
   taskId?: boolean
   fileUrl?: boolean
+  providerId?: boolean
 }
 
-export type MaintenanceLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "completedAt" | "comment" | "cost" | "performedBy" | "taskId" | "fileUrl", ExtArgs["result"]["maintenanceLog"]>
+export type MaintenanceLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "completedAt" | "comment" | "cost" | "performedBy" | "taskId" | "fileUrl" | "providerId", ExtArgs["result"]["maintenanceLog"]>
 export type MaintenanceLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  provider?: boolean | Prisma.MaintenanceLog$providerArgs<ExtArgs>
   task?: boolean | Prisma.TaskDefaultArgs<ExtArgs>
 }
 export type MaintenanceLogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  provider?: boolean | Prisma.MaintenanceLog$providerArgs<ExtArgs>
   task?: boolean | Prisma.TaskDefaultArgs<ExtArgs>
 }
 export type MaintenanceLogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  provider?: boolean | Prisma.MaintenanceLog$providerArgs<ExtArgs>
   task?: boolean | Prisma.TaskDefaultArgs<ExtArgs>
 }
 
 export type $MaintenanceLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MaintenanceLog"
   objects: {
+    provider: Prisma.$ServiceProviderPayload<ExtArgs> | null
     task: Prisma.$TaskPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -617,6 +787,7 @@ export type $MaintenanceLogPayload<ExtArgs extends runtime.Types.Extensions.Inte
     performedBy: string | null
     taskId: string
     fileUrl: string | null
+    providerId: string | null
   }, ExtArgs["result"]["maintenanceLog"]>
   composites: {}
 }
@@ -1011,6 +1182,7 @@ readonly fields: MaintenanceLogFieldRefs;
  */
 export interface Prisma__MaintenanceLogClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  provider<T extends Prisma.MaintenanceLog$providerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceLog$providerArgs<ExtArgs>>): Prisma.Prisma__ServiceProviderClient<runtime.Types.Result.GetResult<Prisma.$ServiceProviderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   task<T extends Prisma.TaskDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaskDefaultArgs<ExtArgs>>): Prisma.Prisma__TaskClient<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1048,6 +1220,7 @@ export interface MaintenanceLogFieldRefs {
   readonly performedBy: Prisma.FieldRef<"MaintenanceLog", 'String'>
   readonly taskId: Prisma.FieldRef<"MaintenanceLog", 'String'>
   readonly fileUrl: Prisma.FieldRef<"MaintenanceLog", 'String'>
+  readonly providerId: Prisma.FieldRef<"MaintenanceLog", 'String'>
 }
     
 
@@ -1441,6 +1614,25 @@ export type MaintenanceLogDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many MaintenanceLogs to delete.
    */
   limit?: number
+}
+
+/**
+ * MaintenanceLog.provider
+ */
+export type MaintenanceLog$providerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceProvider
+   */
+  select?: Prisma.ServiceProviderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServiceProvider
+   */
+  omit?: Prisma.ServiceProviderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceProviderInclude<ExtArgs> | null
+  where?: Prisma.ServiceProviderWhereInput
 }
 
 /**

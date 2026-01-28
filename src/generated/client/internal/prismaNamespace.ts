@@ -388,6 +388,7 @@ export const ModelName = {
   Task: 'Task',
   MaintenanceLog: 'MaintenanceLog',
   User: 'User',
+  ServiceProvider: 'ServiceProvider',
   Account: 'Account',
   Session: 'Session'
 } as const
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "home" | "task" | "maintenanceLog" | "user" | "account" | "session"
+    modelProps: "home" | "task" | "maintenanceLog" | "user" | "serviceProvider" | "account" | "session"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -705,6 +706,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ServiceProvider: {
+      payload: Prisma.$ServiceProviderPayload<ExtArgs>
+      fields: Prisma.ServiceProviderFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ServiceProviderFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ServiceProviderFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        findFirst: {
+          args: Prisma.ServiceProviderFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ServiceProviderFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        findMany: {
+          args: Prisma.ServiceProviderFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>[]
+        }
+        create: {
+          args: Prisma.ServiceProviderCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        createMany: {
+          args: Prisma.ServiceProviderCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ServiceProviderCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>[]
+        }
+        delete: {
+          args: Prisma.ServiceProviderDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        update: {
+          args: Prisma.ServiceProviderUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        deleteMany: {
+          args: Prisma.ServiceProviderDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ServiceProviderUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ServiceProviderUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>[]
+        }
+        upsert: {
+          args: Prisma.ServiceProviderUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        aggregate: {
+          args: Prisma.ServiceProviderAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateServiceProvider>
+        }
+        groupBy: {
+          args: Prisma.ServiceProviderGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServiceProviderGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ServiceProviderCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServiceProviderCountAggregateOutputType> | number
+        }
+      }
+    }
     Account: {
       payload: Prisma.$AccountPayload<ExtArgs>
       fields: Prisma.AccountFieldRefs
@@ -925,7 +1000,8 @@ export const MaintenanceLogScalarFieldEnum = {
   cost: 'cost',
   performedBy: 'performedBy',
   taskId: 'taskId',
-  fileUrl: 'fileUrl'
+  fileUrl: 'fileUrl',
+  providerId: 'providerId'
 } as const
 
 export type MaintenanceLogScalarFieldEnum = (typeof MaintenanceLogScalarFieldEnum)[keyof typeof MaintenanceLogScalarFieldEnum]
@@ -940,6 +1016,19 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const ServiceProviderScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  email: 'email',
+  address: 'address',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ServiceProviderScalarFieldEnum = (typeof ServiceProviderScalarFieldEnum)[keyof typeof ServiceProviderScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {
@@ -1154,6 +1243,7 @@ export type GlobalOmitConfig = {
   task?: Prisma.TaskOmit
   maintenanceLog?: Prisma.MaintenanceLogOmit
   user?: Prisma.UserOmit
+  serviceProvider?: Prisma.ServiceProviderOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit
 }

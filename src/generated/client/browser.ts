@@ -38,6 +38,11 @@ export type MaintenanceLog = Prisma.MaintenanceLogModel
  */
 export type User = Prisma.UserModel
 /**
+ * Model ServiceProvider
+ * 
+ */
+export type ServiceProvider = Prisma.ServiceProviderModel
+/**
  * Model Account
  * 
  */
