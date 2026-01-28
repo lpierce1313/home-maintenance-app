@@ -1,8 +1,8 @@
 'use server'
 
 import { auth } from "@/auth";
+import { Prisma } from "@/generated/client/client";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function createHomeAction(formData: FormData) {
@@ -61,7 +61,21 @@ export async function updateHomeAction(formData: FormData) {
   revalidatePath("/");
 }
 
-export type HomeWithTasksAndLogs = Prisma.PromiseReturnType<typeof getHomeData>;
+export const homeDetailsInclude = {
+  tasks: {
+    orderBy: { dueDate: 'asc' as Prisma.SortOrder },
+    include: {
+      logs: { 
+        orderBy: { completedAt: 'desc' as Prisma.SortOrder },
+        include: { provider: true } 
+      }
+    }
+  }
+} satisfies Prisma.HomeInclude;
+
+export type HomeWithTasksAndLogs = Prisma.HomeGetPayload<{
+  include: typeof homeDetailsInclude;
+}>;
 
 export async function getHomeData(homeId: string, userId: string) {
   return await prisma.home.findUnique({
