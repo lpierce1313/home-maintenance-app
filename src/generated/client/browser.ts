@@ -52,3 +52,8 @@ export type Account = Prisma.AccountModel
  * 
  */
 export type Session = Prisma.SessionModel
+/**
+ * Model FutureProject
+ * 
+ */
+export type FutureProject = Prisma.FutureProjectModel

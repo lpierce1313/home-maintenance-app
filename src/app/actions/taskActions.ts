@@ -19,6 +19,7 @@ export async function createTaskAction(formData: FormData) {
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const frequency = formData.get("frequency") as string;
+  const category = formData.get("category") as string; // Added
   const lastDoneVal = formData.get("lastDone") as string;
 
   const existingTask = await prisma.task.findFirst({
@@ -46,6 +47,7 @@ export async function createTaskAction(formData: FormData) {
     data: {
       title,
       frequency,
+      category: category || "General", // Added
       dueDate,
       description,
       lastDone: lastDoneVal ? new Date(lastDoneVal) : null,
@@ -55,10 +57,12 @@ export async function createTaskAction(formData: FormData) {
 
   revalidatePath(`/homes/${homeId}`);
 }
+
 export async function completeTaskAction(formData: FormData) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
+  const taskId = formData.get("taskId") as string; // Needed for revalidation
   const workerType = formData.get("workerType") as string;
   const providerId = formData.get("providerId") as string;
   const companyName = formData.get("companyName") as string;
@@ -69,11 +73,10 @@ export async function completeTaskAction(formData: FormData) {
     if (providerId && providerId !== "undefined") {
       finalProviderId = providerId;
     } else if (companyName) {
-      // Create new App-Wide Provider Entity
       const newPro = await prisma.serviceProvider.create({
         data: {
           name: companyName,
-          userId: session.user.id, // Linked to User
+          userId: session.user.id,
           phone: formData.get("providerPhone") as string,
           email: formData.get("providerEmail") as string,
         },
@@ -82,15 +85,36 @@ export async function completeTaskAction(formData: FormData) {
     }
   }
 
-  await prisma.maintenanceLog.create({
-    data: {
-      taskId: formData.get("taskId") as string,
-      cost: parseFloat((formData.get("cost") as string) || "0"),
-      comment: formData.get("comment") as string,
-      fileUrl: formData.get("fileUrl") as string,
-      providerId: finalProviderId,
-    },
-  });
+  // Create log and update the task's lastDone/dueDate
+  const task = await prisma.task.findUnique({ where: { id: taskId } });
+  if (!task) throw new Error("Task not found");
+
+  const nextDue = new Date();
+  if (task.frequency === "monthly") nextDue.setMonth(nextDue.getMonth() + 1);
+  else if (task.frequency === "quarterly") nextDue.setMonth(nextDue.getMonth() + 3);
+  else if (task.frequency === "annually") nextDue.setFullYear(nextDue.getFullYear() + 1);
+
+  await prisma.$transaction([
+    prisma.maintenanceLog.create({
+      data: {
+        taskId,
+        cost: parseFloat((formData.get("cost") as string) || "0"),
+        comment: formData.get("comment") as string,
+        fileUrl: formData.get("fileUrl") as string,
+        providerId: finalProviderId,
+        completedAt: new Date(),
+      },
+    }),
+    prisma.task.update({
+      where: { id: taskId },
+      data: {
+        lastDone: new Date(),
+        dueDate: nextDue
+      }
+    })
+  ]);
+
+  revalidatePath(`/homes/${task.homeId}`);
 }
 
 export async function deleteTaskAction(taskId: string, homeId: string) {
@@ -99,12 +123,12 @@ export async function deleteTaskAction(taskId: string, homeId: string) {
 }
 
 export async function updateTaskAction(formData: FormData) {
-  console.log(formData);
   const taskId = formData.get("taskId") as string;
   const homeId = formData.get("homeId") as string;
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const frequency = formData.get("frequency") as string;
+  const category = formData.get("category") as string; // Already present in your snippet, kept for consistency
 
   await prisma.task.update({
     where: { id: taskId },
@@ -112,6 +136,7 @@ export async function updateTaskAction(formData: FormData) {
       title,
       description,
       frequency,
+      category: category || "General",
     },
   });
 

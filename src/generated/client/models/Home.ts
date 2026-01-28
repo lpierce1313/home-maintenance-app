@@ -184,6 +184,7 @@ export type HomeWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   tasks?: Prisma.TaskListRelationFilter
+  futureProjects?: Prisma.FutureProjectListRelationFilter
 }
 
 export type HomeOrderByWithRelationInput = {
@@ -194,6 +195,7 @@ export type HomeOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   tasks?: Prisma.TaskOrderByRelationAggregateInput
+  futureProjects?: Prisma.FutureProjectOrderByRelationAggregateInput
 }
 
 export type HomeWhereUniqueInput = Prisma.AtLeast<{
@@ -207,6 +209,7 @@ export type HomeWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Home"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   tasks?: Prisma.TaskListRelationFilter
+  futureProjects?: Prisma.FutureProjectListRelationFilter
 }, "id">
 
 export type HomeOrderByWithAggregationInput = {
@@ -238,6 +241,7 @@ export type HomeCreateInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutHomesInput
   tasks?: Prisma.TaskCreateNestedManyWithoutHomeInput
+  futureProjects?: Prisma.FutureProjectCreateNestedManyWithoutHomeInput
 }
 
 export type HomeUncheckedCreateInput = {
@@ -247,6 +251,7 @@ export type HomeUncheckedCreateInput = {
   userId: string
   createdAt?: Date | string
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutHomeInput
+  futureProjects?: Prisma.FutureProjectUncheckedCreateNestedManyWithoutHomeInput
 }
 
 export type HomeUpdateInput = {
@@ -256,6 +261,7 @@ export type HomeUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutHomesNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutHomeNestedInput
+  futureProjects?: Prisma.FutureProjectUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeUncheckedUpdateInput = {
@@ -265,6 +271,7 @@ export type HomeUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutHomeNestedInput
+  futureProjects?: Prisma.FutureProjectUncheckedUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeCreateManyInput = {
@@ -397,12 +404,27 @@ export type HomeUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.HomeScalarWhereInput | Prisma.HomeScalarWhereInput[]
 }
 
+export type HomeCreateNestedOneWithoutFutureProjectsInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutFutureProjectsInput, Prisma.HomeUncheckedCreateWithoutFutureProjectsInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutFutureProjectsInput
+  connect?: Prisma.HomeWhereUniqueInput
+}
+
+export type HomeUpdateOneRequiredWithoutFutureProjectsNestedInput = {
+  create?: Prisma.XOR<Prisma.HomeCreateWithoutFutureProjectsInput, Prisma.HomeUncheckedCreateWithoutFutureProjectsInput>
+  connectOrCreate?: Prisma.HomeCreateOrConnectWithoutFutureProjectsInput
+  upsert?: Prisma.HomeUpsertWithoutFutureProjectsInput
+  connect?: Prisma.HomeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HomeUpdateToOneWithWhereWithoutFutureProjectsInput, Prisma.HomeUpdateWithoutFutureProjectsInput>, Prisma.HomeUncheckedUpdateWithoutFutureProjectsInput>
+}
+
 export type HomeCreateWithoutTasksInput = {
   id?: string
   nickname: string
   address?: string | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutHomesInput
+  futureProjects?: Prisma.FutureProjectCreateNestedManyWithoutHomeInput
 }
 
 export type HomeUncheckedCreateWithoutTasksInput = {
@@ -411,6 +433,7 @@ export type HomeUncheckedCreateWithoutTasksInput = {
   address?: string | null
   userId: string
   createdAt?: Date | string
+  futureProjects?: Prisma.FutureProjectUncheckedCreateNestedManyWithoutHomeInput
 }
 
 export type HomeCreateOrConnectWithoutTasksInput = {
@@ -435,6 +458,7 @@ export type HomeUpdateWithoutTasksInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutHomesNestedInput
+  futureProjects?: Prisma.FutureProjectUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeUncheckedUpdateWithoutTasksInput = {
@@ -443,6 +467,7 @@ export type HomeUncheckedUpdateWithoutTasksInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  futureProjects?: Prisma.FutureProjectUncheckedUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeCreateWithoutUserInput = {
@@ -451,6 +476,7 @@ export type HomeCreateWithoutUserInput = {
   address?: string | null
   createdAt?: Date | string
   tasks?: Prisma.TaskCreateNestedManyWithoutHomeInput
+  futureProjects?: Prisma.FutureProjectCreateNestedManyWithoutHomeInput
 }
 
 export type HomeUncheckedCreateWithoutUserInput = {
@@ -459,6 +485,7 @@ export type HomeUncheckedCreateWithoutUserInput = {
   address?: string | null
   createdAt?: Date | string
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutHomeInput
+  futureProjects?: Prisma.FutureProjectUncheckedCreateNestedManyWithoutHomeInput
 }
 
 export type HomeCreateOrConnectWithoutUserInput = {
@@ -498,6 +525,58 @@ export type HomeScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Home"> | Date | string
 }
 
+export type HomeCreateWithoutFutureProjectsInput = {
+  id?: string
+  nickname: string
+  address?: string | null
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutHomesInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutHomeInput
+}
+
+export type HomeUncheckedCreateWithoutFutureProjectsInput = {
+  id?: string
+  nickname: string
+  address?: string | null
+  userId: string
+  createdAt?: Date | string
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutHomeInput
+}
+
+export type HomeCreateOrConnectWithoutFutureProjectsInput = {
+  where: Prisma.HomeWhereUniqueInput
+  create: Prisma.XOR<Prisma.HomeCreateWithoutFutureProjectsInput, Prisma.HomeUncheckedCreateWithoutFutureProjectsInput>
+}
+
+export type HomeUpsertWithoutFutureProjectsInput = {
+  update: Prisma.XOR<Prisma.HomeUpdateWithoutFutureProjectsInput, Prisma.HomeUncheckedUpdateWithoutFutureProjectsInput>
+  create: Prisma.XOR<Prisma.HomeCreateWithoutFutureProjectsInput, Prisma.HomeUncheckedCreateWithoutFutureProjectsInput>
+  where?: Prisma.HomeWhereInput
+}
+
+export type HomeUpdateToOneWithWhereWithoutFutureProjectsInput = {
+  where?: Prisma.HomeWhereInput
+  data: Prisma.XOR<Prisma.HomeUpdateWithoutFutureProjectsInput, Prisma.HomeUncheckedUpdateWithoutFutureProjectsInput>
+}
+
+export type HomeUpdateWithoutFutureProjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutHomesNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutHomeNestedInput
+}
+
+export type HomeUncheckedUpdateWithoutFutureProjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutHomeNestedInput
+}
+
 export type HomeCreateManyUserInput = {
   id?: string
   nickname: string
@@ -511,6 +590,7 @@ export type HomeUpdateWithoutUserInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tasks?: Prisma.TaskUpdateManyWithoutHomeNestedInput
+  futureProjects?: Prisma.FutureProjectUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeUncheckedUpdateWithoutUserInput = {
@@ -519,6 +599,7 @@ export type HomeUncheckedUpdateWithoutUserInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutHomeNestedInput
+  futureProjects?: Prisma.FutureProjectUncheckedUpdateManyWithoutHomeNestedInput
 }
 
 export type HomeUncheckedUpdateManyWithoutUserInput = {
@@ -535,10 +616,12 @@ export type HomeUncheckedUpdateManyWithoutUserInput = {
 
 export type HomeCountOutputType = {
   tasks: number
+  futureProjects: number
 }
 
 export type HomeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tasks?: boolean | HomeCountOutputTypeCountTasksArgs
+  futureProjects?: boolean | HomeCountOutputTypeCountFutureProjectsArgs
 }
 
 /**
@@ -558,6 +641,13 @@ export type HomeCountOutputTypeCountTasksArgs<ExtArgs extends runtime.Types.Exte
   where?: Prisma.TaskWhereInput
 }
 
+/**
+ * HomeCountOutputType without action
+ */
+export type HomeCountOutputTypeCountFutureProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FutureProjectWhereInput
+}
+
 
 export type HomeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -567,6 +657,7 @@ export type HomeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tasks?: boolean | Prisma.Home$tasksArgs<ExtArgs>
+  futureProjects?: boolean | Prisma.Home$futureProjectsArgs<ExtArgs>
   _count?: boolean | Prisma.HomeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["home"]>
 
@@ -600,6 +691,7 @@ export type HomeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type HomeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tasks?: boolean | Prisma.Home$tasksArgs<ExtArgs>
+  futureProjects?: boolean | Prisma.Home$futureProjectsArgs<ExtArgs>
   _count?: boolean | Prisma.HomeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type HomeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -614,6 +706,7 @@ export type $HomePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     tasks: Prisma.$TaskPayload<ExtArgs>[]
+    futureProjects: Prisma.$FutureProjectPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1017,6 +1110,7 @@ export interface Prisma__HomeClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tasks<T extends Prisma.Home$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Home$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  futureProjects<T extends Prisma.Home$futureProjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Home$futureProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FutureProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1468,6 +1562,30 @@ export type Home$tasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.TaskScalarFieldEnum | Prisma.TaskScalarFieldEnum[]
+}
+
+/**
+ * Home.futureProjects
+ */
+export type Home$futureProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FutureProject
+   */
+  select?: Prisma.FutureProjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FutureProject
+   */
+  omit?: Prisma.FutureProjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FutureProjectInclude<ExtArgs> | null
+  where?: Prisma.FutureProjectWhereInput
+  orderBy?: Prisma.FutureProjectOrderByWithRelationInput | Prisma.FutureProjectOrderByWithRelationInput[]
+  cursor?: Prisma.FutureProjectWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FutureProjectScalarFieldEnum | Prisma.FutureProjectScalarFieldEnum[]
 }
 
 /**

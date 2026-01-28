@@ -33,19 +33,52 @@ export default function CompleteTaskDialog({
   existingProviders: ServiceProvider[]
 }) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [fileUrl, setFileUrl] = useState("");
+  const [comment, setComment] = useState("");
   const [workerType, setWorkerType] = useState<'self' | 'company'>('self');
   const [selectedProvider, setSelectedProvider] = useState<ServiceProvider | string | null>(null);
 
   const today = new Date();
   const dueDate = task.dueDate ? new Date(task.dueDate) : new Date();
   const isPastDue = today > dueDate;
-  const diffDays = Math.ceil(Math.abs(today.getTime() - dueDate.getTime()) / (1000 * 3600 * 24));
-  const isNeglected = isPastDue && diffDays > 30;
+  const isNeglected = isPastDue && Math.ceil(Math.abs(today.getTime() - dueDate.getTime()) / (1000 * 3600 * 24)) > 30;
 
-  const handleUploadSuccess = (result: CloudinaryUploadWidgetResults) => {
-    if (result.info && typeof result.info !== 'string') {
-      setFileUrl(result.info.secure_url);
+  const handleClose = () => {
+    setOpen(false);
+    setFileUrl("");
+    setComment("");
+    setSelectedProvider(null);
+    setLoading(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Validates: email format, phone pattern, and required fields
+    if (!e.currentTarget.reportValidity()) return;
+
+    setLoading(true);
+    const formData = new FormData(e.currentTarget);
+
+    formData.append("workerType", workerType);
+    formData.append("fileUrl", fileUrl);
+
+    if (workerType === 'company') {
+      if (typeof selectedProvider === 'string') {
+        formData.append("companyName", selectedProvider);
+      } else if (selectedProvider) {
+        formData.append("providerId", selectedProvider.id);
+        formData.append("companyName", selectedProvider.name);
+      }
+    }
+
+    try {
+      await completeTaskAction(formData);
+      handleClose();
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
     }
   };
 
@@ -61,30 +94,10 @@ export default function CompleteTaskDialog({
         </IconButton>
       </Tooltip>
 
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs" PaperProps={{
-        sx: { overflow: 'hidden' }
-      }}>
-        <form action={async (formData) => {
-          // Manually append state that isn't a native input
-          formData.append("workerType", workerType);
-
-          if (workerType === 'company') {
-            if (typeof selectedProvider === 'string') {
-              formData.append("companyName", selectedProvider); // New Provider
-            } else if (selectedProvider) {
-              formData.append("providerId", selectedProvider.id); // Existing Provider
-              formData.append("companyName", selectedProvider.name);
-            }
-          }
-
-          await completeTaskAction(formData);
-          setOpen(false);
-          setFileUrl("");
-          setSelectedProvider(null);
-        }}>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs" PaperProps={{ sx: { overflow: 'hidden' } }}>
+        <form onSubmit={handleSubmit} noValidate={false}>
           <input type="hidden" name="taskId" value={task.id} />
           <input type="hidden" name="homeId" value={homeId} />
-          <input type="hidden" name="fileUrl" value={fileUrl} />
 
           <DialogTitle sx={{ pb: 1, color: isPastDue ? 'error.main' : 'inherit' }}>
             {isPastDue ? "Log Late Maintenance" : "Log Maintenance"}
@@ -92,8 +105,6 @@ export default function CompleteTaskDialog({
 
           <DialogContent>
             <Stack spacing={3} sx={{ mt: 1 }}>
-
-              {/* Toggle for Self vs Professional */}
               <Box>
                 <Typography variant="caption" color="text.secondary" gutterBottom display="block">
                   Who performed this task?
@@ -106,16 +117,11 @@ export default function CompleteTaskDialog({
                   size="small"
                   color="primary"
                 >
-                  <ToggleButton value="self">
-                    <PersonIcon sx={{ mr: 1, fontSize: 18 }} /> DIY / Self
-                  </ToggleButton>
-                  <ToggleButton value="company">
-                    <BusinessIcon sx={{ mr: 1, fontSize: 18 }} /> Professional
-                  </ToggleButton>
+                  <ToggleButton value="self"><PersonIcon sx={{ mr: 1, fontSize: 18 }} /> DIY</ToggleButton>
+                  <ToggleButton value="company"><BusinessIcon sx={{ mr: 1, fontSize: 18 }} /> Pro</ToggleButton>
                 </ToggleButtonGroup>
               </Box>
 
-              {/* Conditional Provider Selection */}
               {workerType === 'company' && (
                 <Stack spacing={2}>
                   <Autocomplete
@@ -123,23 +129,44 @@ export default function CompleteTaskDialog({
                     options={existingProviders}
                     getOptionLabel={(option) => typeof option === 'string' ? option : option.name}
                     onChange={(_, val) => setSelectedProvider(val)}
-                    onInputChange={(_, val) => {
-                      // If user is typing a new name, update the selection
-                      if (typeof selectedProvider === 'string' || selectedProvider === null) {
-                        setSelectedProvider(val);
-                      }
-                    }}
+                    onInputChange={(_, val) => (typeof selectedProvider === 'string' || selectedProvider === null) && setSelectedProvider(val)}
                     renderInput={(params) => (
-                      <TextField {...params} label="Provider Name" required placeholder="Search or add new..." />
+                      <TextField
+                        {...params}
+                        label="Provider Name"
+                        required
+                        inputProps={{ ...params.inputProps, maxLength: 50 }}
+                      />
                     )}
                   />
 
-                  {/* Show contact fields only for brand new providers */}
                   {typeof selectedProvider === 'string' && selectedProvider.length > 0 && (
                     <Stack spacing={2} sx={{ p: 2, bgcolor: 'action.hover', borderRadius: 2 }}>
                       <Typography variant="caption" fontWeight="bold" color="primary">NEW PROVIDER DETAILS</Typography>
-                      <TextField name="providerPhone" label="Phone (Optional)" size="small" fullWidth />
-                      <TextField name="providerEmail" label="Email (Optional)" size="small" fullWidth />
+                      <TextField
+                        name="providerPhone"
+                        label="Phone (Optional)"
+                        type="tel"
+                        fullWidth
+                        inputProps={{
+                          maxLength: 20,
+                          // Regex: Allows optional +, then digits, spaces, dots, or dashes. 
+                          // Ensures it doesn't just pass with a single dash.
+                          pattern: "[+]?[0-9\\s\\-\\.\\(\\)]{7,20}"
+                        }}
+                        helperText="Min 7 digits (e.g. 123-456-7890)"
+                      />
+                      <TextField
+                        name="providerEmail"
+                        label="Email (Optional)"
+                        type="email"
+                        fullWidth
+                        inputProps={{
+                          maxLength: 100,
+                          pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$"
+                        }}
+                        helperText="Must be a valid email format"
+                      />
                     </Stack>
                   )}
                 </Stack>
@@ -149,24 +176,32 @@ export default function CompleteTaskDialog({
                 name="cost"
                 label="Total Cost"
                 type="number"
-                inputProps={{ step: "0.01" }}
+                inputProps={{ step: "0.01", max: 999999 }}
                 InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
                 fullWidth
               />
 
-              <TextField name="comment" label="Notes/Comments" multiline rows={2} fullWidth />
+              <TextField
+                name="comment"
+                label="Notes/Comments"
+                multiline
+                rows={2}
+                fullWidth
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                inputProps={{ maxLength: 150 }}
+                helperText={`${comment.length}/150`}
+              />
 
               <Box>
                 <CldUploadWidget
                   uploadPreset="maintenance_uploads"
-                  onSuccess={handleUploadSuccess}
+                  onSuccess={(res) => res.info && typeof res.info !== 'string' && setFileUrl(res.info.secure_url)}
                   options={{ sources: ['local', 'camera'], resourceType: 'auto' }}
                 >
                   {({ open }) => (
                     <Button
-                      fullWidth
-                      variant="outlined"
-                      onClick={() => open()}
+                      fullWidth variant="outlined" onClick={() => open()}
                       color={fileUrl ? "success" : "primary"}
                       startIcon={fileUrl ? (fileUrl.endsWith('.pdf') ? <PictureAsPdfIcon /> : <ImageIcon />) : <CloudUploadIcon />}
                       sx={{ py: 1.2, borderStyle: fileUrl ? 'solid' : 'dashed', textTransform: 'none' }}
@@ -180,9 +215,9 @@ export default function CompleteTaskDialog({
           </DialogContent>
 
           <DialogActions sx={{ p: 3 }}>
-            <Button onClick={() => setOpen(false)} color="inherit">Cancel</Button>
-            <Button type="submit" variant="contained" color={isPastDue ? "error" : "success"}>
-              Complete & Log
+            <Button onClick={handleClose} color="inherit">Cancel</Button>
+            <Button type="submit" variant="contained" disabled={loading} color={isPastDue ? "error" : "success"}>
+              {loading ? 'Saving...' : 'Complete & Log'}
             </Button>
           </DialogActions>
         </form>

@@ -8,7 +8,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import { createTaskAction } from '@/app/actions/taskActions';
-import { CATEGORIES, TASK_TEMPLATES } from '@/lib/taskTemplates';
+import { CATEGORIES, CategoryType, TASK_TEMPLATES } from '@/lib/taskTemplates';
 
 export default function AddTaskDialog({ homeId }: { homeId: string }) {
   const [open, setOpen] = useState(false);
@@ -17,6 +17,7 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
   const [title, setTitle] = useState('');
   const [frequency, setFrequency] = useState('monthly');
   const [description, setDescription] = useState('');
+  const [category, setCategory] = useState<CategoryType>(CATEGORIES[0]);
   const [lastDone, setLastDone] = useState('');
 
   const handleSelectTemplate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,8 +25,13 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
     if (template) {
       setTitle(template.title);
       setFrequency(template.frequency);
+      setCategory(template.category);
       setDescription(template.description);
     }
+  };
+
+  const handleSelectCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCategory(e.target.value as CategoryType);
   };
 
   const handleClose = () => {
@@ -49,7 +55,7 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
           try {
             await createTaskAction(formData);
             handleClose();
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (err: any) {
             alert(err.message);
           }
@@ -59,34 +65,25 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
           <DialogContent>
             <Stack spacing={3} sx={{ mt: 1 }}>
 
-              {/* Template Picker */}
               <TextField
                 select
                 label="Quick Templates"
                 defaultValue=""
                 onChange={handleSelectTemplate}
-                helperText="Pick a common task to autofill the form"
+                helperText="Pick a common task to autofill"
                 InputProps={{
                   startAdornment: <AutoFixHighIcon color="primary" sx={{ mr: 1 }} />,
                 }}
                 SelectProps={{
-                  MenuProps: {
-                    PaperProps: {
-                      style: {
-                        maxHeight: 300,
-                      },
-                    },
-                  },
+                  MenuProps: { PaperProps: { style: { maxHeight: 300 } } },
                 }}
               >
                 {TASK_TEMPLATES.map((t) => (
-                  <MenuItem key={t.title} value={t.title}>
-                    {t.title}
-                  </MenuItem>
+                  <MenuItem key={t.title} value={t.title}>{t.title}</MenuItem>
                 ))}
               </TextField>
 
-              <Divider>OR MANUALLY ENTER</Divider>
+              <Divider sx={{ fontSize: '0.65rem', fontWeight: 'bold' }}>OR MANUALLY ENTER</Divider>
 
               <TextField
                 name="title"
@@ -95,14 +92,17 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
                 fullWidth
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                inputProps={{ maxLength: 60 }}
+                helperText={`${title.length}/60`}
               />
 
               <TextField
                 select
                 name="category"
                 label="Category"
-                defaultValue="General"
+                value={category}
                 fullWidth
+                onChange={handleSelectCategory}
               >
                 {CATEGORIES.map((cat) => (
                   <MenuItem key={cat} value={cat}>{cat}</MenuItem>
@@ -140,6 +140,8 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
                 fullWidth
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                inputProps={{ maxLength: 200 }}
+                helperText="Brief description (Max 200 chars)"
               />
             </Stack>
           </DialogContent>

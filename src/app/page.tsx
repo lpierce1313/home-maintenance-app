@@ -149,7 +149,16 @@ export default async function HomePage() {
                     href={`/homes/${home.id}`}
                     sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 'bold' }}
                   >
-                    View Maintenance
+                    Maintenance
+                  </Button>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    href={`/homes/${home.id}/projects`}
+                    sx={{ borderRadius: 2, mt: 1, textTransform: 'none', fontWeight: 'bold' }}
+                  >
+                    Improvements
                   </Button>
                 </CardContent>
               </Card>

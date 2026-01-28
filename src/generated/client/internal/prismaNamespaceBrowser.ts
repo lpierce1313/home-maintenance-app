@@ -57,7 +57,8 @@ export const ModelName = {
   User: 'User',
   ServiceProvider: 'ServiceProvider',
   Account: 'Account',
-  Session: 'Session'
+  Session: 'Session',
+  FutureProject: 'FutureProject'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -167,6 +168,23 @@ export const SessionScalarFieldEnum = {
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const FutureProjectScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  priority: 'priority',
+  status: 'status',
+  estimatedCost: 'estimatedCost',
+  order: 'order',
+  completedAt: 'completedAt',
+  homeId: 'homeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FutureProjectScalarFieldEnum = (typeof FutureProjectScalarFieldEnum)[keyof typeof FutureProjectScalarFieldEnum]
 
 
 export const SortOrder = {

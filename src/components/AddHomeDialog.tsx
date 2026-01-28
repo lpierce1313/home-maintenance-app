@@ -29,7 +29,7 @@ export default function AddHomeDialog() {
         Add Home
       </Button>
 
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs"  PaperProps={{
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs" PaperProps={{
         sx: { overflow: 'hidden' }
       }}>
         <form action={handleAction}>
@@ -43,12 +43,16 @@ export default function AddHomeDialog() {
                 placeholder="e.g. My Apartment"
                 fullWidth
                 required
+                inputProps={{ maxLength: 50 }}
+                helperText="Max 50 characters"
               />
               <TextField
                 name="address"
                 label="Address (Optional)"
                 placeholder="123 Main St"
                 fullWidth
+                inputProps={{ maxLength: 100 }}
+                helperText="Max 100 characters"
               />
             </Stack>
           </DialogContent>

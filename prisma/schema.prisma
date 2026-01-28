@@ -15,6 +15,7 @@ model Home {
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   tasks     Task[]
+  futureProjects FutureProject[]
 }
 
 model Task {
@@ -98,4 +99,36 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  COMPLETED
+}
+
+model FutureProject {
+  id            String        @id @default(cuid())
+  title         String
+  description   String?
+  priority      Priority      @default(MEDIUM)
+  status        ProjectStatus @default(PLANNING)
+  estimatedCost Float?
+  order         Int           
+  completedAt   DateTime?
+  
+  homeId        String
+  home          Home          @relation(fields: [homeId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([homeId])
 }

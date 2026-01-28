@@ -2,197 +2,171 @@ import { HomeWithTasksAndLogs } from '@/lib/types';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
-  page: { 
-    padding: 40, 
-    backgroundColor: '#FFFFFF', 
-    fontFamily: 'Helvetica', 
-    lineHeight: 1.5 
-  },
-  // Header Section
-  header: { 
-    borderBottomWidth: 3, 
-    borderBottomColor: '#4ade80', 
-    borderBottomStyle: 'solid',
-    paddingBottom: 12, 
-    marginBottom: 20 
-  },
-  title: { 
-    fontSize: 28, 
-    fontWeight: 'bold', 
-    color: '#020617',
-    letterSpacing: 1 
-  },
-  subtitle: { 
-    fontSize: 11, 
-    color: '#475569', 
-    marginTop: 6,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5
-  },
-  
-  // Summary Stats Row
-  statsRow: { 
-    flexDirection: 'row', 
-    gap: 15, 
-    marginBottom: 30 
-  },
-  statBox: { 
-    flex: 1, 
-    backgroundColor: '#f8fafc', 
-    padding: 12, 
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: '#e2e8f0'
-  },
-  statLabel: { 
-    fontSize: 7, 
-    color: '#64748b', 
-    textTransform: 'uppercase', 
-    marginBottom: 4,
-    fontWeight: 'bold'
-  },
-  statValue: { 
-    fontSize: 15, 
-    fontWeight: 'bold', 
-    color: '#020617' 
-  },
+    page: {
+        padding: 40,
+        backgroundColor: '#FFFFFF',
+        fontFamily: 'Helvetica',
+        lineHeight: 1.4
+    },
+    header: {
+        borderBottomWidth: 2,
+        borderBottomColor: '#4ade80',
+        paddingBottom: 15,
+        marginBottom: 20
+    },
+    title: { fontSize: 22, fontWeight: 'bold', color: '#0f172a', letterSpacing: 0.5 },
+    subtitle: { fontSize: 9, color: '#64748b', marginTop: 4, textTransform: 'uppercase', letterSpacing: 1 },
 
-  // Table Header - High Visibility
-  tableHeader: { 
-    flexDirection: 'row', 
-    backgroundColor: '#4ade80', // Emerald Background
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    borderRadius: 4,
-    alignItems: 'center',
-  },
-  headerText: {
-    fontSize: 9,
-    fontWeight: 'bold',
-    color: '#020617', // Dark Navy Text for contrast
-    textTransform: 'uppercase',
-    letterSpacing: 0.8,
-  },
+    statsRow: { flexDirection: 'row', gap: 12, marginBottom: 20 },
+    statBox: {
+        flex: 1,
+        padding: 10,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: '#f1f5f9',
+        backgroundColor: '#fafafa'
+    },
+    statLabel: { fontSize: 7, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 2, fontWeight: 'bold' },
+    statValue: { fontSize: 13, fontWeight: 'bold', color: '#0f172a' },
 
-  // Table Rows
-  tableRow: { 
-    flexDirection: 'row', 
-    borderBottomWidth: 1, 
-    borderBottomColor: '#f1f5f9', 
-    borderBottomStyle: 'solid',
-    minHeight: 38, 
-    alignItems: 'center' 
-  },
-  
-  // Column Widths & Contrast
-  colDate: { width: '15%', fontSize: 9, paddingLeft: 8, color: '#334155' },
-  colTask: { width: '25%', fontSize: 10, fontWeight: 'bold', color: '#020617' },
-  colWho: { width: '20%', fontSize: 9, color: '#334155' },
-  colCost: { width: '15%', fontSize: 10, textAlign: 'right', paddingRight: 12, fontWeight: 'bold', color: '#020617' },
-  colNotes: { width: '25%', fontSize: 8.5, color: '#475569', paddingRight: 5 },
+    // Category Section
+    categorySection: { marginTop: 15, marginBottom: 5 },
+    categoryHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 4,
+        borderBottomWidth: 1,
+        borderBottomColor: '#4ade80',
+        marginBottom: 8
+    },
+    categoryTitle: { fontSize: 10, fontWeight: 'bold', color: '#166534', textTransform: 'uppercase', letterSpacing: 1 },
+    categoryCount: { fontSize: 8, color: '#94a3b8', marginLeft: 6 },
 
-  footer: { 
-    position: 'absolute', 
-    bottom: 30, 
-    left: 40, 
-    right: 40, 
-    fontSize: 9, 
-    textAlign: 'center', 
-    color: '#94a3b8',
-    borderTopWidth: 1, 
-    borderTopColor: '#f1f5f9', 
-    paddingTop: 12
-  }
+    // Table Structure
+    tableHeader: {
+        flexDirection: 'row',
+        paddingVertical: 6,
+        borderBottomWidth: 1,
+        borderBottomColor: '#e2e8f0',
+    },
+    headerText: { fontSize: 7, fontWeight: 'bold', color: '#64748b', textTransform: 'uppercase' },
+
+    tableRow: {
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderBottomColor: '#f8fafc',
+        paddingVertical: 8,
+        alignItems: 'flex-start'
+    },
+
+    colDate: { width: '12%', fontSize: 8, color: '#64748b' },
+    colTask: { width: '25%', fontSize: 9, fontWeight: 'bold', color: '#0f172a', paddingRight: 5 },
+    colWho: { width: '28%' },
+    providerName: { fontSize: 8, fontWeight: 'bold', color: '#334155' },
+    providerContact: { fontSize: 7, color: '#94a3b8', marginTop: 1 }, // Tighter spacing
+    colCost: { width: '12%', fontSize: 9, textAlign: 'right', fontWeight: 'bold', color: '#0f172a', paddingRight: 10 },
+    colNotes: { width: '23%', fontSize: 8, color: '#64748b', fontStyle: 'italic' },
+
+    footer: {
+        position: 'absolute', bottom: 30, left: 40, right: 40,
+        fontSize: 7, textAlign: 'center', color: '#cbd5e1',
+        borderTopWidth: 1, borderTopColor: '#f1f5f9', paddingTop: 10
+    }
 });
 
 export const MaintenanceReport = ({ home }: { home: HomeWithTasksAndLogs }) => {
-  if (!home) return null;
+    if (!home) return null;
 
-  // Data Preparation
-  const allLogs = home.tasks.flatMap((task) => 
-    task.logs.map((log) => ({
-      ...log,
-      taskTitle: task.title,
-    }))
-  );
+    const allLogs = home.tasks.flatMap((task) =>
+        task.logs.map((log) => ({
+            ...log,
+            taskTitle: task.title,
+            category: task.category || 'General',
+        }))
+    );
 
-  const sortedLogs = allLogs.sort((a, b) => 
-    new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
-  );
+    const groupedLogs = allLogs.reduce((acc, log) => {
+        const cat = log.category;
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(log);
+        return acc;
+    }, {} as Record<string, typeof allLogs>);
 
-  const totalSpend = sortedLogs.reduce((sum, log) => sum + (log.cost || 0), 0);
+    const categories = Object.keys(groupedLogs).sort();
+    const totalSpend = allLogs.reduce((sum, log) => sum + (log.cost || 0), 0);
 
-  return (
-    <Document title={`${home.nickname} - Maintenance Report`}>
-      <Page size="A4" style={styles.page}>
-        
-        {/* TOP BRANDING HEADER */}
-        <View style={styles.header}>
-          <Text style={styles.title}>Maintenance Pedigree</Text>
-          <Text style={styles.subtitle}>
-            {home.nickname} | {home.address || 'Property Record'}
-          </Text>
-        </View>
+    return (
+        <Document title={`${home.nickname} - Record of Maintenance`}>
+            <Page size="A4" style={styles.page}>
 
-        {/* FINANCIAL SUMMARY CARDS */}
-        <View style={styles.statsRow}>
-          <View style={styles.statBox}>
-            <Text style={styles.statLabel}>Total Invested</Text>
-            <Text style={styles.statValue}>
-              ${totalSpend.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-            </Text>
-          </View>
-          <View style={styles.statBox}>
-            <Text style={styles.statLabel}>Service Count</Text>
-            <Text style={styles.statValue}>{sortedLogs.length} Records</Text>
-          </View>
-          <View style={styles.statBox}>
-            <Text style={styles.statLabel}>Report Date</Text>
-            <Text style={styles.statValue}>{new Date().toLocaleDateString()}</Text>
-          </View>
-        </View>
+                <View style={styles.header}>
+                    <Text style={styles.title}>Maintenance Pedigree</Text>
+                    <Text style={styles.subtitle}>{home.nickname} • {home.address || 'Property Record'}</Text>
+                </View>
 
-        {/* HISTORY TABLE HEADER */}
-        <View style={styles.tableHeader}>
-          <Text style={[styles.headerText, { width: '15%', paddingLeft: 8 }]}>Date</Text>
-          <Text style={[styles.headerText, { width: '25%' }]}>Service</Text>
-          <Text style={[styles.headerText, { width: '20%' }]}>Provider</Text>
-          <Text style={[styles.headerText, { width: '15%', textAlign: 'right', paddingRight: 12 }]}>Cost</Text>
-          <Text style={[styles.headerText, { width: '25%' }]}>Notes</Text>
-        </View>
+                <View style={styles.statsRow}>
+                    <View style={styles.statBox}>
+                        <Text style={styles.statLabel}>Total Investment</Text>
+                        <Text style={styles.statValue}>${totalSpend.toLocaleString(undefined, { minimumFractionDigits: 2 })}</Text>
+                    </View>
+                    <View style={styles.statBox}>
+                        <Text style={styles.statLabel}>Records</Text>
+                        <Text style={styles.statValue}>{allLogs.length} Events</Text>
+                    </View>
+                    <View style={styles.statBox}>
+                        <Text style={styles.statLabel}>As of Date</Text>
+                        <Text style={styles.statValue}>{new Date().toLocaleDateString()}</Text>
+                    </View>
+                </View>
 
-        {/* DATA ROWS */}
-        {sortedLogs.map((log, i) => (
-          <View 
-            key={log.id} 
-            style={[styles.tableRow, { backgroundColor: i % 2 === 0 ? '#FFFFFF' : '#f8fafc' }]}
-            wrap={false}
-          >
-            <Text style={styles.colDate}>
-              {new Date(log.completedAt).toLocaleDateString()}
-            </Text>
-            <Text style={styles.colTask}>{log.taskTitle}</Text>
-            <Text style={styles.colWho}>
-              {log.provider?.name || log.performedBy || 'Self Managed'}
-            </Text>
-            <Text style={styles.colCost}>
-              ${(log.cost || 0).toFixed(2)}
-            </Text>
-            <Text style={styles.colNotes}>
-              {log.comment || '-'}
-            </Text>
-          </View>
-        ))}
+                {categories.map((cat) => (
+                    <View key={cat} style={styles.categorySection} wrap={false}>
+                        <View style={styles.categoryHeader}>
+                            <Text style={styles.categoryTitle}>{cat}</Text>
+                            <Text style={styles.categoryCount}>({groupedLogs[cat].length})</Text>
+                        </View>
 
-        {/* FOOTER */}
-        <Text 
-          style={styles.footer} 
-          render={({ pageNumber, totalPages }) => (
-            `HomeHealth AI • Verified Property Records • Page ${pageNumber} of ${totalPages}`
-          )} 
-          fixed 
-        />
-      </Page>
-    </Document>
-  );
+                        <View style={styles.tableHeader}>
+                            <Text style={[styles.headerText, { width: '12%' }]}>Date</Text>
+                            <Text style={[styles.headerText, { width: '25%' }]}>Task</Text>
+                            <Text style={[styles.headerText, { width: '28%' }]}>Provider</Text>
+                            <Text style={[styles.headerText, { width: '12%', textAlign: 'right', paddingRight: 10 }]}>Cost</Text>
+                            <Text style={[styles.headerText, { width: '23%' }]}>Notes</Text>
+                        </View>
+
+                        {groupedLogs[cat]
+                            .sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime())
+                            .map((log) => (
+                                <View key={log.id} style={styles.tableRow}>
+                                    <Text style={styles.colDate}>{new Date(log.completedAt).toLocaleDateString()}</Text>
+                                    <Text style={styles.colTask}>{log.taskTitle}</Text>
+
+                                    <View style={styles.colWho}>
+                                        <Text style={styles.providerName}>
+                                            {log.provider?.name || log.performedBy || 'Self Managed'}
+                                        </Text>
+                                        {log.provider && (
+                                            <View style={styles.providerContact}>
+                                                <Text>
+                                                    {[log.provider.email, log.provider.phone].filter(Boolean).join('  •  ')}
+                                                </Text>
+                                            </View>
+                                        )}
+                                    </View>
+
+                                    <Text style={styles.colCost}>${(log.cost || 0).toFixed(2)}</Text>
+                                    <Text style={styles.colNotes}>{log.comment || '-'}</Text>
+                                </View>
+                            ))}
+                    </View>
+                ))}
+
+                <Text
+                    style={styles.footer}
+                    render={({ pageNumber, totalPages }) => `HomeHealth AI • Verified Records • Page ${pageNumber} of ${totalPages}`}
+                    fixed
+                />
+            </Page>
+        </Document>
+    );
 };

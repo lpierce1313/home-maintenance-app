@@ -7,26 +7,53 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { updateTaskAction } from '@/app/actions/taskActions';
+import { CATEGORIES, CategoryType } from '@/lib/taskTemplates';
 import { Task } from '@/generated/client/client';
 
 export default function EditTaskDialog({ task, homeId }: { task: Task, homeId: string }) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
+  // Initialize state with current task values
+  const [category, setCategory] = useState<CategoryType>((task.category || "General") as CategoryType);
+  const [title, setTitle] = useState(task.title || "");
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setLoading(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Force browser to check maxLength and required constraints
+    if (!e.currentTarget.reportValidity()) return;
+
+    setLoading(true);
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      await updateTaskAction(formData);
+      handleClose();
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
 
   return (
     <>
       <Tooltip title="Edit Task">
-        <IconButton size="small" onClick={() => setOpen(true)} color="inherit" sx={{ opacity: 0.7 }}>
+        <IconButton size="small" onClick={handleOpen} color="inherit" sx={{ opacity: 0.7 }}>
           <EditIcon fontSize="small" />
         </IconButton>
       </Tooltip>
 
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs"  PaperProps={{
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs" PaperProps={{
         sx: { overflow: 'hidden' }
       }}>
-        <form action={async (formData) => {
-          await updateTaskAction(formData);
-          setOpen(false);
-        }}>
+        <form onSubmit={handleSubmit}>
           <input type="hidden" name="taskId" value={task.id} />
           <input type="hidden" name="homeId" value={homeId} />
 
@@ -36,24 +63,41 @@ export default function EditTaskDialog({ task, homeId }: { task: Task, homeId: s
               <TextField
                 name="title"
                 label="Task Title"
-                defaultValue={task.title}
                 required
                 fullWidth
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                inputProps={{ maxLength: 60 }}
+                helperText={`${title.length}/60`}
               />
+
+              <TextField
+                select
+                name="category"
+                label="Category"
+                value={category}
+                fullWidth
+                onChange={(e) => setCategory(e.target.value as CategoryType)}
+              >
+                {CATEGORIES.map((cat) => (
+                  <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+                ))}
+              </TextField>
+
               <TextField
                 select
                 name="frequency"
                 label="Frequency"
                 defaultValue={task.frequency}
-                InputProps={{
-                  readOnly: true,
-                }}
+                // Keeping read-only as per your business logic
+                InputProps={{ readOnly: true }}
                 fullWidth
               >
                 <MenuItem value="monthly">Monthly</MenuItem>
                 <MenuItem value="quarterly">Quarterly</MenuItem>
                 <MenuItem value="annually">Annually</MenuItem>
               </TextField>
+
               <TextField
                 name="description"
                 label="Description"
@@ -61,12 +105,20 @@ export default function EditTaskDialog({ task, homeId }: { task: Task, homeId: s
                 multiline
                 rows={2}
                 fullWidth
+                inputProps={{ maxLength: 200 }}
+                helperText="Max 200 characters"
               />
             </Stack>
           </DialogContent>
           <DialogActions sx={{ p: 3 }}>
-            <Button onClick={() => setOpen(false)}>Cancel</Button>
-            <Button type="submit" variant="contained">Update Task</Button>
+            <Button onClick={handleClose} color="inherit">Cancel</Button>
+            <Button 
+              type="submit" 
+              variant="contained" 
+              disabled={loading}
+            >
+              {loading ? 'Updating...' : 'Update Task'}
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

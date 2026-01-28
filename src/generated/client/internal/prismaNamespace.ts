@@ -390,7 +390,8 @@ export const ModelName = {
   User: 'User',
   ServiceProvider: 'ServiceProvider',
   Account: 'Account',
-  Session: 'Session'
+  Session: 'Session',
+  FutureProject: 'FutureProject'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "home" | "task" | "maintenanceLog" | "user" | "serviceProvider" | "account" | "session"
+    modelProps: "home" | "task" | "maintenanceLog" | "user" | "serviceProvider" | "account" | "session" | "futureProject"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -928,6 +929,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FutureProject: {
+      payload: Prisma.$FutureProjectPayload<ExtArgs>
+      fields: Prisma.FutureProjectFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FutureProjectFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FutureProjectPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FutureProjectFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FutureProjectPayload>
+        }
+        findFirst: {
+          args: Prisma.FutureProjectFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FutureProjectPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FutureProjectFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FutureProjectPayload>
+        }
+        findMany: {
+          args: Prisma.FutureProjectFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FutureProjectPayload>[]
+        }
+        create: {
+          args: Prisma.FutureProjectCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FutureProjectPayload>
+        }
+        createMany: {
+          args: Prisma.FutureProjectCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FutureProjectCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FutureProjectPayload>[]
+        }
+        delete: {
+          args: Prisma.FutureProjectDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FutureProjectPayload>
+        }
+        update: {
+          args: Prisma.FutureProjectUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FutureProjectPayload>
+        }
+        deleteMany: {
+          args: Prisma.FutureProjectDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FutureProjectUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FutureProjectUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FutureProjectPayload>[]
+        }
+        upsert: {
+          args: Prisma.FutureProjectUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FutureProjectPayload>
+        }
+        aggregate: {
+          args: Prisma.FutureProjectAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFutureProject>
+        }
+        groupBy: {
+          args: Prisma.FutureProjectGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FutureProjectGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FutureProjectCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FutureProjectCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1060,6 +1135,23 @@ export const SessionScalarFieldEnum = {
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+export const FutureProjectScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  priority: 'priority',
+  status: 'status',
+  estimatedCost: 'estimatedCost',
+  order: 'order',
+  completedAt: 'completedAt',
+  homeId: 'homeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FutureProjectScalarFieldEnum = (typeof FutureProjectScalarFieldEnum)[keyof typeof FutureProjectScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1143,6 +1235,34 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Priority'
+ */
+export type EnumPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Priority'>
+    
+
+
+/**
+ * Reference to a field of type 'Priority[]'
+ */
+export type ListEnumPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Priority[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectStatus'
+ */
+export type EnumProjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectStatus[]'
+ */
+export type ListEnumProjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectStatus[]'>
     
 
 /**
@@ -1247,6 +1367,7 @@ export type GlobalOmitConfig = {
   serviceProvider?: Prisma.ServiceProviderOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit
+  futureProject?: Prisma.FutureProjectOmit
 }
 
 /* Types for Logging */
