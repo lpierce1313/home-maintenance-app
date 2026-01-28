@@ -22,6 +22,7 @@ model Task {
   title       String
   description String?
   status      String   @default("good") // "good", "due", "overdue"
+  category    String   @default("General")
   frequency   String?  // "monthly", "quarterly", etc.
   dueDate     DateTime
   lastDone    DateTime? 

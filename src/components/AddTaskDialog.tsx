@@ -8,7 +8,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import { createTaskAction } from '@/app/actions/taskActions';
-import { TASK_TEMPLATES } from '@/lib/taskTemplates';
+import { CATEGORIES, TASK_TEMPLATES } from '@/lib/taskTemplates';
 
 export default function AddTaskDialog({ homeId }: { homeId: string }) {
   const [open, setOpen] = useState(false);
@@ -42,7 +42,7 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
         Add Task
       </Button>
 
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs"  PaperProps={{
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs" PaperProps={{
         sx: { overflow: 'hidden' }
       }}>
         <form action={async (formData) => {
@@ -96,6 +96,18 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+
+              <TextField
+                select
+                name="category"
+                label="Category"
+                defaultValue="General"
+                fullWidth
+              >
+                {CATEGORIES.map((cat) => (
+                  <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+                ))}
+              </TextField>
 
               <TextField
                 select

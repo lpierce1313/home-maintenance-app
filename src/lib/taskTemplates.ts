@@ -30,3 +30,5 @@ export const TASK_TEMPLATES: TaskTemplate[] = [
   { title: "Check Attic for Leaks", frequency: "quarterly", description: "Look for water stains on the ceiling." },
   { title: "Fertilize Lawn", frequency: "quarterly", description: "Apply seasonal nutrients for soil health." }
 ];
+
+export const CATEGORIES = ["General", "HVAC", "Plumbing", "Electrical", "Exterior", "Appliances", "Roofing"];

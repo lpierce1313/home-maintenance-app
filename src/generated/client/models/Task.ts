@@ -29,6 +29,7 @@ export type TaskMinAggregateOutputType = {
   title: string | null
   description: string | null
   status: string | null
+  category: string | null
   frequency: string | null
   dueDate: Date | null
   lastDone: Date | null
@@ -41,6 +42,7 @@ export type TaskMaxAggregateOutputType = {
   title: string | null
   description: string | null
   status: string | null
+  category: string | null
   frequency: string | null
   dueDate: Date | null
   lastDone: Date | null
@@ -53,6 +55,7 @@ export type TaskCountAggregateOutputType = {
   title: number
   description: number
   status: number
+  category: number
   frequency: number
   dueDate: number
   lastDone: number
@@ -67,6 +70,7 @@ export type TaskMinAggregateInputType = {
   title?: true
   description?: true
   status?: true
+  category?: true
   frequency?: true
   dueDate?: true
   lastDone?: true
@@ -79,6 +83,7 @@ export type TaskMaxAggregateInputType = {
   title?: true
   description?: true
   status?: true
+  category?: true
   frequency?: true
   dueDate?: true
   lastDone?: true
@@ -91,6 +96,7 @@ export type TaskCountAggregateInputType = {
   title?: true
   description?: true
   status?: true
+  category?: true
   frequency?: true
   dueDate?: true
   lastDone?: true
@@ -176,6 +182,7 @@ export type TaskGroupByOutputType = {
   title: string
   description: string | null
   status: string
+  category: string
   frequency: string | null
   dueDate: Date
   lastDone: Date | null
@@ -209,6 +216,7 @@ export type TaskWhereInput = {
   title?: Prisma.StringFilter<"Task"> | string
   description?: Prisma.StringNullableFilter<"Task"> | string | null
   status?: Prisma.StringFilter<"Task"> | string
+  category?: Prisma.StringFilter<"Task"> | string
   frequency?: Prisma.StringNullableFilter<"Task"> | string | null
   dueDate?: Prisma.DateTimeFilter<"Task"> | Date | string
   lastDone?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
@@ -223,6 +231,7 @@ export type TaskOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   frequency?: Prisma.SortOrderInput | Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   lastDone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -241,6 +250,7 @@ export type TaskWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"Task"> | string
   description?: Prisma.StringNullableFilter<"Task"> | string | null
   status?: Prisma.StringFilter<"Task"> | string
+  category?: Prisma.StringFilter<"Task"> | string
   frequency?: Prisma.StringNullableFilter<"Task"> | string | null
   dueDate?: Prisma.DateTimeFilter<"Task"> | Date | string
   lastDone?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
@@ -255,6 +265,7 @@ export type TaskOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   frequency?: Prisma.SortOrderInput | Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   lastDone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -273,6 +284,7 @@ export type TaskScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"Task"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
   status?: Prisma.StringWithAggregatesFilter<"Task"> | string
+  category?: Prisma.StringWithAggregatesFilter<"Task"> | string
   frequency?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
   dueDate?: Prisma.DateTimeWithAggregatesFilter<"Task"> | Date | string
   lastDone?: Prisma.DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
@@ -285,6 +297,7 @@ export type TaskCreateInput = {
   title: string
   description?: string | null
   status?: string
+  category?: string
   frequency?: string | null
   dueDate: Date | string
   lastDone?: Date | string | null
@@ -298,6 +311,7 @@ export type TaskUncheckedCreateInput = {
   title: string
   description?: string | null
   status?: string
+  category?: string
   frequency?: string | null
   dueDate: Date | string
   lastDone?: Date | string | null
@@ -311,6 +325,7 @@ export type TaskUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -324,6 +339,7 @@ export type TaskUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -337,6 +353,7 @@ export type TaskCreateManyInput = {
   title: string
   description?: string | null
   status?: string
+  category?: string
   frequency?: string | null
   dueDate: Date | string
   lastDone?: Date | string | null
@@ -349,6 +366,7 @@ export type TaskUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -360,6 +378,7 @@ export type TaskUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -387,6 +406,7 @@ export type TaskCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   frequency?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   lastDone?: Prisma.SortOrder
@@ -399,6 +419,7 @@ export type TaskMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   frequency?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   lastDone?: Prisma.SortOrder
@@ -411,6 +432,7 @@ export type TaskMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   frequency?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   lastDone?: Prisma.SortOrder
@@ -488,6 +510,7 @@ export type TaskCreateWithoutHomeInput = {
   title: string
   description?: string | null
   status?: string
+  category?: string
   frequency?: string | null
   dueDate: Date | string
   lastDone?: Date | string | null
@@ -500,6 +523,7 @@ export type TaskUncheckedCreateWithoutHomeInput = {
   title: string
   description?: string | null
   status?: string
+  category?: string
   frequency?: string | null
   dueDate: Date | string
   lastDone?: Date | string | null
@@ -541,6 +565,7 @@ export type TaskScalarWhereInput = {
   title?: Prisma.StringFilter<"Task"> | string
   description?: Prisma.StringNullableFilter<"Task"> | string | null
   status?: Prisma.StringFilter<"Task"> | string
+  category?: Prisma.StringFilter<"Task"> | string
   frequency?: Prisma.StringNullableFilter<"Task"> | string | null
   dueDate?: Prisma.DateTimeFilter<"Task"> | Date | string
   lastDone?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
@@ -553,6 +578,7 @@ export type TaskCreateWithoutLogsInput = {
   title: string
   description?: string | null
   status?: string
+  category?: string
   frequency?: string | null
   dueDate: Date | string
   lastDone?: Date | string | null
@@ -565,6 +591,7 @@ export type TaskUncheckedCreateWithoutLogsInput = {
   title: string
   description?: string | null
   status?: string
+  category?: string
   frequency?: string | null
   dueDate: Date | string
   lastDone?: Date | string | null
@@ -593,6 +620,7 @@ export type TaskUpdateWithoutLogsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -605,6 +633,7 @@ export type TaskUncheckedUpdateWithoutLogsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -617,6 +646,7 @@ export type TaskCreateManyHomeInput = {
   title: string
   description?: string | null
   status?: string
+  category?: string
   frequency?: string | null
   dueDate: Date | string
   lastDone?: Date | string | null
@@ -628,6 +658,7 @@ export type TaskUpdateWithoutHomeInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -640,6 +671,7 @@ export type TaskUncheckedUpdateWithoutHomeInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -652,6 +684,7 @@ export type TaskUncheckedUpdateManyWithoutHomeInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -694,6 +727,7 @@ export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   title?: boolean
   description?: boolean
   status?: boolean
+  category?: boolean
   frequency?: boolean
   dueDate?: boolean
   lastDone?: boolean
@@ -709,6 +743,7 @@ export type TaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   title?: boolean
   description?: boolean
   status?: boolean
+  category?: boolean
   frequency?: boolean
   dueDate?: boolean
   lastDone?: boolean
@@ -722,6 +757,7 @@ export type TaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   title?: boolean
   description?: boolean
   status?: boolean
+  category?: boolean
   frequency?: boolean
   dueDate?: boolean
   lastDone?: boolean
@@ -735,6 +771,7 @@ export type TaskSelectScalar = {
   title?: boolean
   description?: boolean
   status?: boolean
+  category?: boolean
   frequency?: boolean
   dueDate?: boolean
   lastDone?: boolean
@@ -742,7 +779,7 @@ export type TaskSelectScalar = {
   createdAt?: boolean
 }
 
-export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "status" | "frequency" | "dueDate" | "lastDone" | "homeId" | "createdAt", ExtArgs["result"]["task"]>
+export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "status" | "category" | "frequency" | "dueDate" | "lastDone" | "homeId" | "createdAt", ExtArgs["result"]["task"]>
 export type TaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
   logs?: boolean | Prisma.Task$logsArgs<ExtArgs>
@@ -766,6 +803,7 @@ export type $TaskPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     title: string
     description: string | null
     status: string
+    category: string
     frequency: string | null
     dueDate: Date
     lastDone: Date | null
@@ -1200,6 +1238,7 @@ export interface TaskFieldRefs {
   readonly title: Prisma.FieldRef<"Task", 'String'>
   readonly description: Prisma.FieldRef<"Task", 'String'>
   readonly status: Prisma.FieldRef<"Task", 'String'>
+  readonly category: Prisma.FieldRef<"Task", 'String'>
   readonly frequency: Prisma.FieldRef<"Task", 'String'>
   readonly dueDate: Prisma.FieldRef<"Task", 'DateTime'>
   readonly lastDone: Prisma.FieldRef<"Task", 'DateTime'>
