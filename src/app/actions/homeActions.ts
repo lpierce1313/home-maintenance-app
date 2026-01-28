@@ -45,3 +45,17 @@ export async function deleteHomeAction(homeId: string) {
 
   revalidatePath("/");
 }
+
+export async function updateHomeAction(formData: FormData) {
+  const homeId = formData.get("homeId") as string;
+  const nickname = formData.get("nickname") as string;
+  const address = formData.get("address") as string;
+
+  await prisma.home.update({
+    where: { id: homeId },
+    data: { nickname, address }
+  });
+
+  revalidatePath(`/homes/${homeId}`);
+  revalidatePath("/");
+}

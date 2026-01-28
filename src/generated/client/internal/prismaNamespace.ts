@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Home: 'Home',
   Task: 'Task',
+  MaintenanceLog: 'MaintenanceLog',
   User: 'User',
   Account: 'Account',
   Session: 'Session'
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "home" | "task" | "user" | "account" | "session"
+    modelProps: "home" | "task" | "maintenanceLog" | "user" | "account" | "session"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TaskCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TaskCountAggregateOutputType> | number
+        }
+      }
+    }
+    MaintenanceLog: {
+      payload: Prisma.$MaintenanceLogPayload<ExtArgs>
+      fields: Prisma.MaintenanceLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MaintenanceLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MaintenanceLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        findFirst: {
+          args: Prisma.MaintenanceLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MaintenanceLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        findMany: {
+          args: Prisma.MaintenanceLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>[]
+        }
+        create: {
+          args: Prisma.MaintenanceLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        createMany: {
+          args: Prisma.MaintenanceLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MaintenanceLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>[]
+        }
+        delete: {
+          args: Prisma.MaintenanceLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        update: {
+          args: Prisma.MaintenanceLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.MaintenanceLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MaintenanceLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MaintenanceLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.MaintenanceLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        aggregate: {
+          args: Prisma.MaintenanceLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMaintenanceLog>
+        }
+        groupBy: {
+          args: Prisma.MaintenanceLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MaintenanceLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MaintenanceLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MaintenanceLogCountAggregateOutputType> | number
         }
       }
     }
@@ -831,14 +906,29 @@ export type HomeScalarFieldEnum = (typeof HomeScalarFieldEnum)[keyof typeof Home
 export const TaskScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  isCompleted: 'isCompleted',
+  description: 'description',
+  status: 'status',
+  frequency: 'frequency',
   dueDate: 'dueDate',
+  lastDone: 'lastDone',
   homeId: 'homeId',
-  createdAt: 'createdAt',
-  description: 'description'
+  createdAt: 'createdAt'
 } as const
 
 export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
+export const MaintenanceLogScalarFieldEnum = {
+  id: 'id',
+  completedAt: 'completedAt',
+  comment: 'comment',
+  cost: 'cost',
+  performedBy: 'performedBy',
+  taskId: 'taskId',
+  fileUrl: 'fileUrl'
+} as const
+
+export type MaintenanceLogScalarFieldEnum = (typeof MaintenanceLogScalarFieldEnum)[keyof typeof MaintenanceLogScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -939,9 +1029,16 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'Boolean'
+ * Reference to a field of type 'Float'
  */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
@@ -956,20 +1053,6 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -1069,6 +1152,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   home?: Prisma.HomeOmit
   task?: Prisma.TaskOmit
+  maintenanceLog?: Prisma.MaintenanceLogOmit
   user?: Prisma.UserOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit

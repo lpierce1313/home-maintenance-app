@@ -27,31 +27,37 @@ export type AggregateTask = {
 export type TaskMinAggregateOutputType = {
   id: string | null
   title: string | null
-  isCompleted: boolean | null
+  description: string | null
+  status: string | null
+  frequency: string | null
   dueDate: Date | null
+  lastDone: Date | null
   homeId: string | null
   createdAt: Date | null
-  description: string | null
 }
 
 export type TaskMaxAggregateOutputType = {
   id: string | null
   title: string | null
-  isCompleted: boolean | null
+  description: string | null
+  status: string | null
+  frequency: string | null
   dueDate: Date | null
+  lastDone: Date | null
   homeId: string | null
   createdAt: Date | null
-  description: string | null
 }
 
 export type TaskCountAggregateOutputType = {
   id: number
   title: number
-  isCompleted: number
+  description: number
+  status: number
+  frequency: number
   dueDate: number
+  lastDone: number
   homeId: number
   createdAt: number
-  description: number
   _all: number
 }
 
@@ -59,31 +65,37 @@ export type TaskCountAggregateOutputType = {
 export type TaskMinAggregateInputType = {
   id?: true
   title?: true
-  isCompleted?: true
+  description?: true
+  status?: true
+  frequency?: true
   dueDate?: true
+  lastDone?: true
   homeId?: true
   createdAt?: true
-  description?: true
 }
 
 export type TaskMaxAggregateInputType = {
   id?: true
   title?: true
-  isCompleted?: true
+  description?: true
+  status?: true
+  frequency?: true
   dueDate?: true
+  lastDone?: true
   homeId?: true
   createdAt?: true
-  description?: true
 }
 
 export type TaskCountAggregateInputType = {
   id?: true
   title?: true
-  isCompleted?: true
+  description?: true
+  status?: true
+  frequency?: true
   dueDate?: true
+  lastDone?: true
   homeId?: true
   createdAt?: true
-  description?: true
   _all?: true
 }
 
@@ -162,11 +174,13 @@ export type TaskGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type TaskGroupByOutputType = {
   id: string
   title: string
-  isCompleted: boolean
+  description: string | null
+  status: string
+  frequency: string | null
   dueDate: Date
+  lastDone: Date | null
   homeId: string
   createdAt: Date
-  description: string | null
   _count: TaskCountAggregateOutputType | null
   _min: TaskMinAggregateOutputType | null
   _max: TaskMaxAggregateOutputType | null
@@ -193,23 +207,29 @@ export type TaskWhereInput = {
   NOT?: Prisma.TaskWhereInput | Prisma.TaskWhereInput[]
   id?: Prisma.StringFilter<"Task"> | string
   title?: Prisma.StringFilter<"Task"> | string
-  isCompleted?: Prisma.BoolFilter<"Task"> | boolean
+  description?: Prisma.StringNullableFilter<"Task"> | string | null
+  status?: Prisma.StringFilter<"Task"> | string
+  frequency?: Prisma.StringNullableFilter<"Task"> | string | null
   dueDate?: Prisma.DateTimeFilter<"Task"> | Date | string
+  lastDone?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   homeId?: Prisma.StringFilter<"Task"> | string
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
-  description?: Prisma.StringNullableFilter<"Task"> | string | null
   home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
+  logs?: Prisma.MaintenanceLogListRelationFilter
 }
 
 export type TaskOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  isCompleted?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  frequency?: Prisma.SortOrderInput | Prisma.SortOrder
   dueDate?: Prisma.SortOrder
+  lastDone?: Prisma.SortOrderInput | Prisma.SortOrder
   homeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
   home?: Prisma.HomeOrderByWithRelationInput
+  logs?: Prisma.MaintenanceLogOrderByRelationAggregateInput
 }
 
 export type TaskWhereUniqueInput = Prisma.AtLeast<{
@@ -218,22 +238,27 @@ export type TaskWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.TaskWhereInput[]
   NOT?: Prisma.TaskWhereInput | Prisma.TaskWhereInput[]
   title?: Prisma.StringFilter<"Task"> | string
-  isCompleted?: Prisma.BoolFilter<"Task"> | boolean
+  description?: Prisma.StringNullableFilter<"Task"> | string | null
+  status?: Prisma.StringFilter<"Task"> | string
+  frequency?: Prisma.StringNullableFilter<"Task"> | string | null
   dueDate?: Prisma.DateTimeFilter<"Task"> | Date | string
+  lastDone?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   homeId?: Prisma.StringFilter<"Task"> | string
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
-  description?: Prisma.StringNullableFilter<"Task"> | string | null
   home?: Prisma.XOR<Prisma.HomeScalarRelationFilter, Prisma.HomeWhereInput>
+  logs?: Prisma.MaintenanceLogListRelationFilter
 }, "id">
 
 export type TaskOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  isCompleted?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  frequency?: Prisma.SortOrderInput | Prisma.SortOrder
   dueDate?: Prisma.SortOrder
+  lastDone?: Prisma.SortOrderInput | Prisma.SortOrder
   homeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TaskCountOrderByAggregateInput
   _max?: Prisma.TaskMaxOrderByAggregateInput
   _min?: Prisma.TaskMinOrderByAggregateInput
@@ -245,80 +270,100 @@ export type TaskScalarWhereWithAggregatesInput = {
   NOT?: Prisma.TaskScalarWhereWithAggregatesInput | Prisma.TaskScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Task"> | string
   title?: Prisma.StringWithAggregatesFilter<"Task"> | string
-  isCompleted?: Prisma.BoolWithAggregatesFilter<"Task"> | boolean
+  description?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
+  status?: Prisma.StringWithAggregatesFilter<"Task"> | string
+  frequency?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
   dueDate?: Prisma.DateTimeWithAggregatesFilter<"Task"> | Date | string
+  lastDone?: Prisma.DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
   homeId?: Prisma.StringWithAggregatesFilter<"Task"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Task"> | Date | string
-  description?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
 }
 
 export type TaskCreateInput = {
   id?: string
   title: string
-  isCompleted?: boolean
-  dueDate: Date | string
-  createdAt?: Date | string
   description?: string | null
+  status?: string
+  frequency?: string | null
+  dueDate: Date | string
+  lastDone?: Date | string | null
+  createdAt?: Date | string
   home: Prisma.HomeCreateNestedOneWithoutTasksInput
+  logs?: Prisma.MaintenanceLogCreateNestedManyWithoutTaskInput
 }
 
 export type TaskUncheckedCreateInput = {
   id?: string
   title: string
-  isCompleted?: boolean
+  description?: string | null
+  status?: string
+  frequency?: string | null
   dueDate: Date | string
+  lastDone?: Date | string | null
   homeId: string
   createdAt?: Date | string
-  description?: string | null
+  logs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutTaskInput
 }
 
 export type TaskUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   home?: Prisma.HomeUpdateOneRequiredWithoutTasksNestedInput
+  logs?: Prisma.MaintenanceLogUpdateManyWithoutTaskNestedInput
 }
 
 export type TaskUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   homeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutTaskNestedInput
 }
 
 export type TaskCreateManyInput = {
   id?: string
   title: string
-  isCompleted?: boolean
+  description?: string | null
+  status?: string
+  frequency?: string | null
   dueDate: Date | string
+  lastDone?: Date | string | null
   homeId: string
   createdAt?: Date | string
-  description?: string | null
 }
 
 export type TaskUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TaskUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   homeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TaskListRelationFilter = {
@@ -334,31 +379,42 @@ export type TaskOrderByRelationAggregateInput = {
 export type TaskCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  isCompleted?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  frequency?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
+  lastDone?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  description?: Prisma.SortOrder
 }
 
 export type TaskMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  isCompleted?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  frequency?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
+  lastDone?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  description?: Prisma.SortOrder
 }
 
 export type TaskMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  isCompleted?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  frequency?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
+  lastDone?: Prisma.SortOrder
   homeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+}
+
+export type TaskScalarRelationFilter = {
+  is?: Prisma.TaskWhereInput
+  isNot?: Prisma.TaskWhereInput
 }
 
 export type TaskCreateNestedManyWithoutHomeInput = {
@@ -403,26 +459,46 @@ export type TaskUncheckedUpdateManyWithoutHomeNestedInput = {
   deleteMany?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type TaskCreateNestedOneWithoutLogsInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutLogsInput, Prisma.TaskUncheckedCreateWithoutLogsInput>
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutLogsInput
+  connect?: Prisma.TaskWhereUniqueInput
+}
+
+export type TaskUpdateOneRequiredWithoutLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutLogsInput, Prisma.TaskUncheckedCreateWithoutLogsInput>
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutLogsInput
+  upsert?: Prisma.TaskUpsertWithoutLogsInput
+  connect?: Prisma.TaskWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TaskUpdateToOneWithWhereWithoutLogsInput, Prisma.TaskUpdateWithoutLogsInput>, Prisma.TaskUncheckedUpdateWithoutLogsInput>
 }
 
 export type TaskCreateWithoutHomeInput = {
   id?: string
   title: string
-  isCompleted?: boolean
-  dueDate: Date | string
-  createdAt?: Date | string
   description?: string | null
+  status?: string
+  frequency?: string | null
+  dueDate: Date | string
+  lastDone?: Date | string | null
+  createdAt?: Date | string
+  logs?: Prisma.MaintenanceLogCreateNestedManyWithoutTaskInput
 }
 
 export type TaskUncheckedCreateWithoutHomeInput = {
   id?: string
   title: string
-  isCompleted?: boolean
-  dueDate: Date | string
-  createdAt?: Date | string
   description?: string | null
+  status?: string
+  frequency?: string | null
+  dueDate: Date | string
+  lastDone?: Date | string | null
+  createdAt?: Date | string
+  logs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutTaskInput
 }
 
 export type TaskCreateOrConnectWithoutHomeInput = {
@@ -457,97 +533,214 @@ export type TaskScalarWhereInput = {
   NOT?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
   id?: Prisma.StringFilter<"Task"> | string
   title?: Prisma.StringFilter<"Task"> | string
-  isCompleted?: Prisma.BoolFilter<"Task"> | boolean
+  description?: Prisma.StringNullableFilter<"Task"> | string | null
+  status?: Prisma.StringFilter<"Task"> | string
+  frequency?: Prisma.StringNullableFilter<"Task"> | string | null
   dueDate?: Prisma.DateTimeFilter<"Task"> | Date | string
+  lastDone?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   homeId?: Prisma.StringFilter<"Task"> | string
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
-  description?: Prisma.StringNullableFilter<"Task"> | string | null
+}
+
+export type TaskCreateWithoutLogsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  status?: string
+  frequency?: string | null
+  dueDate: Date | string
+  lastDone?: Date | string | null
+  createdAt?: Date | string
+  home: Prisma.HomeCreateNestedOneWithoutTasksInput
+}
+
+export type TaskUncheckedCreateWithoutLogsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  status?: string
+  frequency?: string | null
+  dueDate: Date | string
+  lastDone?: Date | string | null
+  homeId: string
+  createdAt?: Date | string
+}
+
+export type TaskCreateOrConnectWithoutLogsInput = {
+  where: Prisma.TaskWhereUniqueInput
+  create: Prisma.XOR<Prisma.TaskCreateWithoutLogsInput, Prisma.TaskUncheckedCreateWithoutLogsInput>
+}
+
+export type TaskUpsertWithoutLogsInput = {
+  update: Prisma.XOR<Prisma.TaskUpdateWithoutLogsInput, Prisma.TaskUncheckedUpdateWithoutLogsInput>
+  create: Prisma.XOR<Prisma.TaskCreateWithoutLogsInput, Prisma.TaskUncheckedCreateWithoutLogsInput>
+  where?: Prisma.TaskWhereInput
+}
+
+export type TaskUpdateToOneWithWhereWithoutLogsInput = {
+  where?: Prisma.TaskWhereInput
+  data: Prisma.XOR<Prisma.TaskUpdateWithoutLogsInput, Prisma.TaskUncheckedUpdateWithoutLogsInput>
+}
+
+export type TaskUpdateWithoutLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  home?: Prisma.HomeUpdateOneRequiredWithoutTasksNestedInput
+}
+
+export type TaskUncheckedUpdateWithoutLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  homeId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TaskCreateManyHomeInput = {
   id?: string
   title: string
-  isCompleted?: boolean
-  dueDate: Date | string
-  createdAt?: Date | string
   description?: string | null
+  status?: string
+  frequency?: string | null
+  dueDate: Date | string
+  lastDone?: Date | string | null
+  createdAt?: Date | string
 }
 
 export type TaskUpdateWithoutHomeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logs?: Prisma.MaintenanceLogUpdateManyWithoutTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutHomeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutTaskNestedInput
 }
 
 export type TaskUncheckedUpdateManyWithoutHomeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  frequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastDone?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type TaskCountOutputType
+ */
+
+export type TaskCountOutputType = {
+  logs: number
+}
+
+export type TaskCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  logs?: boolean | TaskCountOutputTypeCountLogsArgs
+}
+
+/**
+ * TaskCountOutputType without action
+ */
+export type TaskCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TaskCountOutputType
+   */
+  select?: Prisma.TaskCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TaskCountOutputType without action
+ */
+export type TaskCountOutputTypeCountLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MaintenanceLogWhereInput
+}
 
 
 export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  isCompleted?: boolean
+  description?: boolean
+  status?: boolean
+  frequency?: boolean
   dueDate?: boolean
+  lastDone?: boolean
   homeId?: boolean
   createdAt?: boolean
-  description?: boolean
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
+  logs?: boolean | Prisma.Task$logsArgs<ExtArgs>
+  _count?: boolean | Prisma.TaskCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
 
 export type TaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  isCompleted?: boolean
+  description?: boolean
+  status?: boolean
+  frequency?: boolean
   dueDate?: boolean
+  lastDone?: boolean
   homeId?: boolean
   createdAt?: boolean
-  description?: boolean
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
 
 export type TaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  isCompleted?: boolean
+  description?: boolean
+  status?: boolean
+  frequency?: boolean
   dueDate?: boolean
+  lastDone?: boolean
   homeId?: boolean
   createdAt?: boolean
-  description?: boolean
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
 
 export type TaskSelectScalar = {
   id?: boolean
   title?: boolean
-  isCompleted?: boolean
+  description?: boolean
+  status?: boolean
+  frequency?: boolean
   dueDate?: boolean
+  lastDone?: boolean
   homeId?: boolean
   createdAt?: boolean
-  description?: boolean
 }
 
-export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "isCompleted" | "dueDate" | "homeId" | "createdAt" | "description", ExtArgs["result"]["task"]>
+export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "status" | "frequency" | "dueDate" | "lastDone" | "homeId" | "createdAt", ExtArgs["result"]["task"]>
 export type TaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
+  logs?: boolean | Prisma.Task$logsArgs<ExtArgs>
+  _count?: boolean | Prisma.TaskCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TaskIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
@@ -560,15 +753,18 @@ export type $TaskPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "Task"
   objects: {
     home: Prisma.$HomePayload<ExtArgs>
+    logs: Prisma.$MaintenanceLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
-    isCompleted: boolean
+    description: string | null
+    status: string
+    frequency: string | null
     dueDate: Date
+    lastDone: Date | null
     homeId: string
     createdAt: Date
-    description: string | null
   }, ExtArgs["result"]["task"]>
   composites: {}
 }
@@ -964,6 +1160,7 @@ readonly fields: TaskFieldRefs;
 export interface Prisma__TaskClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   home<T extends Prisma.HomeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HomeDefaultArgs<ExtArgs>>): Prisma.Prisma__HomeClient<runtime.Types.Result.GetResult<Prisma.$HomePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  logs<T extends Prisma.Task$logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -995,11 +1192,13 @@ export interface Prisma__TaskClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface TaskFieldRefs {
   readonly id: Prisma.FieldRef<"Task", 'String'>
   readonly title: Prisma.FieldRef<"Task", 'String'>
-  readonly isCompleted: Prisma.FieldRef<"Task", 'Boolean'>
+  readonly description: Prisma.FieldRef<"Task", 'String'>
+  readonly status: Prisma.FieldRef<"Task", 'String'>
+  readonly frequency: Prisma.FieldRef<"Task", 'String'>
   readonly dueDate: Prisma.FieldRef<"Task", 'DateTime'>
+  readonly lastDone: Prisma.FieldRef<"Task", 'DateTime'>
   readonly homeId: Prisma.FieldRef<"Task", 'String'>
   readonly createdAt: Prisma.FieldRef<"Task", 'DateTime'>
-  readonly description: Prisma.FieldRef<"Task", 'String'>
 }
     
 
@@ -1393,6 +1592,30 @@ export type TaskDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Tasks to delete.
    */
   limit?: number
+}
+
+/**
+ * Task.logs
+ */
+export type Task$logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceLog
+   */
+  select?: Prisma.MaintenanceLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MaintenanceLog
+   */
+  omit?: Prisma.MaintenanceLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceLogInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceLogWhereInput
+  orderBy?: Prisma.MaintenanceLogOrderByWithRelationInput | Prisma.MaintenanceLogOrderByWithRelationInput[]
+  cursor?: Prisma.MaintenanceLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MaintenanceLogScalarFieldEnum | Prisma.MaintenanceLogScalarFieldEnum[]
 }
 
 /**

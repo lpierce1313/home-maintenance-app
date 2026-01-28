@@ -50,6 +50,11 @@ export type Home = Prisma.HomeModel
  */
 export type Task = Prisma.TaskModel
 /**
+ * Model MaintenanceLog
+ * 
+ */
+export type MaintenanceLog = Prisma.MaintenanceLogModel
+/**
  * Model User
  * 
  */

@@ -20,12 +20,26 @@ model Home {
 model Task {
   id          String   @id @default(cuid())
   title       String
-  isCompleted Boolean  @default(false)
-  dueDate     DateTime
-  homeId      String
-  createdAt   DateTime @default(now())
   description String?
+  status      String   @default("good") // "good", "due", "overdue"
+  frequency   String?  // "monthly", "quarterly", etc.
+  dueDate     DateTime
+  lastDone    DateTime? 
+  homeId      String
   home        Home     @relation(fields: [homeId], references: [id], onDelete: Cascade)
+  logs        MaintenanceLog[] // History of this task
+  createdAt   DateTime @default(now())
+}
+
+model MaintenanceLog {
+  id           String   @id @default(cuid())
+  completedAt  DateTime @default(now())
+  comment      String?
+  cost         Float?
+  performedBy  String?
+  taskId       String
+  fileUrl     String?
+  task         Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
 }
 
 model User {

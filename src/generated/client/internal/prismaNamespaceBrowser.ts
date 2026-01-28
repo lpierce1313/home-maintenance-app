@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Home: 'Home',
   Task: 'Task',
+  MaintenanceLog: 'MaintenanceLog',
   User: 'User',
   Account: 'Account',
   Session: 'Session'
@@ -88,14 +89,29 @@ export type HomeScalarFieldEnum = (typeof HomeScalarFieldEnum)[keyof typeof Home
 export const TaskScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  isCompleted: 'isCompleted',
+  description: 'description',
+  status: 'status',
+  frequency: 'frequency',
   dueDate: 'dueDate',
+  lastDone: 'lastDone',
   homeId: 'homeId',
-  createdAt: 'createdAt',
-  description: 'description'
+  createdAt: 'createdAt'
 } as const
 
 export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
+export const MaintenanceLogScalarFieldEnum = {
+  id: 'id',
+  completedAt: 'completedAt',
+  comment: 'comment',
+  cost: 'cost',
+  performedBy: 'performedBy',
+  taskId: 'taskId',
+  fileUrl: 'fileUrl'
+} as const
+
+export type MaintenanceLogScalarFieldEnum = (typeof MaintenanceLogScalarFieldEnum)[keyof typeof MaintenanceLogScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
