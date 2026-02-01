@@ -6,7 +6,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { MaintenanceReport } from './MaintenanceReport';
 import { HomeWithTasksAndLogs } from '@/lib/types';
 
-export default function ExportButton({ home }: { home: HomeWithTasksAndLogs }) {
+export default function ExportButton({ home, fullWidth }: { home: HomeWithTasksAndLogs; fullWidth: boolean }) {
   const [isClient, setIsClient] = useState(false);
 
   // This ensures the component only renders after the initial mount
@@ -34,6 +34,7 @@ export default function ExportButton({ home }: { home: HomeWithTasksAndLogs }) {
           variant="outlined"
           startIcon={loading ? <CircularProgress size={20} /> : <FileDownloadIcon />}
           disabled={loading}
+          fullWidth={fullWidth}
           sx={{ fontWeight: 'bold' }}
         >
           {loading ? 'Preparing PDF...' : 'Export Maintenance PDF'}

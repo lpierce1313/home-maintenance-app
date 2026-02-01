@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { 
   Button, Dialog, DialogTitle, DialogContent, 
-  DialogActions, TextField, Stack 
+  DialogActions, TextField, Stack, useMediaQuery, useTheme 
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { createHomeAction } from '@/app/actions/homeActions';
@@ -11,6 +11,10 @@ import { createHomeAction } from '@/app/actions/homeActions';
 export default function AddHomeDialog() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  
+  // Detect screen size
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleAction = async (formData: FormData) => {
     setLoading(true);
@@ -25,15 +29,29 @@ export default function AddHomeDialog() {
         variant="contained" 
         startIcon={<AddIcon />} 
         onClick={() => setOpen(true)}
+        // Only take full width on mobile; on desktop, stay natural size
+        fullWidth={isMobile}
+        sx={{ 
+          borderRadius: 2,
+          textTransform: 'none',
+          fontWeight: 'bold',
+          whiteSpace: 'nowrap',
+          // Ensure it doesn't stretch vertically on desktop
+          height: { sm: '40px' } 
+        }}
       >
         Add Home
       </Button>
 
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs" PaperProps={{
-        sx: { overflow: 'hidden' }
-      }}>
+      <Dialog 
+        open={open} 
+        onClose={() => setOpen(false)} 
+        fullWidth 
+        maxWidth="xs" 
+        PaperProps={{ sx: { overflow: 'hidden' } }}
+      >
         <form action={handleAction}>
-          <DialogTitle>Add New Home</DialogTitle>
+          <DialogTitle sx={{ fontWeight: 'bold' }}>Add New Home</DialogTitle>
           <DialogContent>
             <Stack spacing={3} sx={{ mt: 1 }}>
               <TextField
@@ -44,7 +62,6 @@ export default function AddHomeDialog() {
                 fullWidth
                 required
                 inputProps={{ maxLength: 50 }}
-                helperText="Max 50 characters"
               />
               <TextField
                 name="address"
@@ -52,16 +69,16 @@ export default function AddHomeDialog() {
                 placeholder="123 Main St"
                 fullWidth
                 inputProps={{ maxLength: 100 }}
-                helperText="Max 100 characters"
               />
             </Stack>
           </DialogContent>
           <DialogActions sx={{ p: 3 }}>
-            <Button onClick={() => setOpen(false)} color="inherit">Cancel</Button>
+            <Button onClick={() => setOpen(false)} color="inherit" sx={{ fontWeight: 'bold' }}>Cancel</Button>
             <Button 
               type="submit" 
               variant="contained" 
               disabled={loading}
+              sx={{ fontWeight: 'bold' }}
             >
               {loading ? 'Saving...' : 'Save Home'}
             </Button>

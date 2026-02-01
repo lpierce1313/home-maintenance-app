@@ -3,15 +3,18 @@
 import { useState } from 'react';
 import {
   Button, Dialog, DialogTitle, DialogContent,
-  DialogActions, TextField, Stack, MenuItem, Divider
+  DialogActions, TextField, Stack, MenuItem, Divider,
+  useMediaQuery, useTheme, Box
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import { createTaskAction } from '@/app/actions/taskActions';
 import { CATEGORIES, CategoryType, TASK_TEMPLATES } from '@/lib/taskTemplates';
 
-export default function AddTaskDialog({ homeId }: { homeId: string }) {
+export default function AddTaskDialog({ homeId, fullWidth }: { homeId: string, fullWidth?: boolean }) {
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Local state for controlled inputs
   const [title, setTitle] = useState('');
@@ -44,13 +47,36 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
 
   return (
     <>
-      <Button variant="contained" startIcon={<AddIcon />} onClick={() => setOpen(true)}>
+      <Button
+        // Use the prop passed by parent, but default to isMobile logic
+        fullWidth={fullWidth ?? isMobile}
+        variant="contained"
+        startIcon={<AddIcon />}
+        onClick={() => setOpen(true)}
+        sx={{
+          whiteSpace: 'nowrap',
+          textTransform: 'none',
+          fontWeight: 'bold',
+          borderRadius: 2,
+          // Prevent vertical stretching on desktop header
+          height: { sm: '40px' }
+        }}
+      >
         Add Task
       </Button>
 
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs" PaperProps={{
-        sx: { overflow: 'hidden' }
-      }}>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        maxWidth="xs"
+        PaperProps={{
+          sx: {
+            overflow: 'hidden',
+            borderRadius: 3
+          }
+        }}
+      >
         <form action={async (formData) => {
           try {
             await createTaskAction(formData);
@@ -61,7 +87,7 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
           }
         }}>
           <input type="hidden" name="homeId" value={homeId} />
-          <DialogTitle>Add New Maintenance Task</DialogTitle>
+          <DialogTitle sx={{ fontWeight: 'bold' }}>New Maintenance Task</DialogTitle>
           <DialogContent>
             <Stack spacing={3} sx={{ mt: 1 }}>
 
@@ -72,7 +98,7 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
                 onChange={handleSelectTemplate}
                 helperText="Pick a common task to autofill"
                 InputProps={{
-                  startAdornment: <AutoFixHighIcon color="primary" sx={{ mr: 1 }} />,
+                  startAdornment: <AutoFixHighIcon color="primary" sx={{ mr: 1, fontSize: 20 }} />,
                 }}
                 SelectProps={{
                   MenuProps: { PaperProps: { style: { maxHeight: 300 } } },
@@ -83,7 +109,11 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
                 ))}
               </TextField>
 
-              <Divider sx={{ fontSize: '0.65rem', fontWeight: 'bold' }}>OR MANUALLY ENTER</Divider>
+              <Divider>
+                <Box component="span" sx={{ fontSize: '0.65rem', fontWeight: 'bold', color: 'text.secondary', px: 1 }}>
+                  OR MANUALLY ENTER
+                </Box>
+              </Divider>
 
               <TextField
                 name="title"
@@ -93,34 +123,36 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 inputProps={{ maxLength: 60 }}
-                helperText={`${title.length}/60`}
+              // Removing helperText count here to save vertical height on small mobile screens
               />
 
-              <TextField
-                select
-                name="category"
-                label="Category"
-                value={category}
-                fullWidth
-                onChange={handleSelectCategory}
-              >
-                {CATEGORIES.map((cat) => (
-                  <MenuItem key={cat} value={cat}>{cat}</MenuItem>
-                ))}
-              </TextField>
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                <TextField
+                  select
+                  name="category"
+                  label="Category"
+                  value={category}
+                  fullWidth
+                  onChange={handleSelectCategory}
+                >
+                  {CATEGORIES.map((cat) => (
+                    <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+                  ))}
+                </TextField>
 
-              <TextField
-                select
-                name="frequency"
-                label="Frequency"
-                fullWidth
-                value={frequency}
-                onChange={(e) => setFrequency(e.target.value)}
-              >
-                <MenuItem value="monthly">Monthly</MenuItem>
-                <MenuItem value="quarterly">Quarterly</MenuItem>
-                <MenuItem value="annually">Annually</MenuItem>
-              </TextField>
+                <TextField
+                  select
+                  name="frequency"
+                  label="Frequency"
+                  fullWidth
+                  value={frequency}
+                  onChange={(e) => setFrequency(e.target.value)}
+                >
+                  <MenuItem value="monthly">Monthly</MenuItem>
+                  <MenuItem value="quarterly">Quarterly</MenuItem>
+                  <MenuItem value="annually">Annually</MenuItem>
+                </TextField>
+              </Stack>
 
               <TextField
                 name="lastDone"
@@ -141,13 +173,12 @@ export default function AddTaskDialog({ homeId }: { homeId: string }) {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 inputProps={{ maxLength: 200 }}
-                helperText="Brief description (Max 200 chars)"
               />
             </Stack>
           </DialogContent>
           <DialogActions sx={{ p: 3 }}>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit" variant="contained">Add Task</Button>
+            <Button onClick={handleClose} color="inherit" sx={{ fontWeight: 'bold' }}>Cancel</Button>
+            <Button type="submit" variant="contained" sx={{ fontWeight: 'bold' }}>Add Task</Button>
           </DialogActions>
         </form>
       </Dialog>
