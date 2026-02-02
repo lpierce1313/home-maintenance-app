@@ -58,7 +58,8 @@ export const ModelName = {
   ServiceProvider: 'ServiceProvider',
   Account: 'Account',
   Session: 'Session',
-  FutureProject: 'FutureProject'
+  FutureProject: 'FutureProject',
+  PushSubscription: 'PushSubscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -185,6 +186,18 @@ export const FutureProjectScalarFieldEnum = {
 } as const
 
 export type FutureProjectScalarFieldEnum = (typeof FutureProjectScalarFieldEnum)[keyof typeof FutureProjectScalarFieldEnum]
+
+
+export const PushSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  endpoint: 'endpoint',
+  p256dh: 'p256dh',
+  auth: 'auth',
+  createdAt: 'createdAt'
+} as const
+
+export type PushSubscriptionScalarFieldEnum = (typeof PushSubscriptionScalarFieldEnum)[keyof typeof PushSubscriptionScalarFieldEnum]
 
 
 export const SortOrder = {

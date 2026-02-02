@@ -79,3 +79,8 @@ export type Session = Prisma.SessionModel
  * 
  */
 export type FutureProject = Prisma.FutureProjectModel
+/**
+ * Model PushSubscription
+ * 
+ */
+export type PushSubscription = Prisma.PushSubscriptionModel

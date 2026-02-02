@@ -14,6 +14,7 @@ import AddHomeDialog from '@/components/AddHomeDialog';
 import DeleteHomeButton from '@/components/DeleteHomeButton';
 
 import { getProvidersAction } from "@/app/actions/providerActions";
+import NotificationToggle from "@/components/NotificationToggle";
 
 export default async function HomePage() {
   const session = await auth();
@@ -99,6 +100,8 @@ export default async function HomePage() {
             </form>
           </Stack>
         </Stack>
+
+                <NotificationToggle />
 
         {/* Service Directory Card - Responsive Stacking */}
         <Card
