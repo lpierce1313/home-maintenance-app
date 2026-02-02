@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 webpush.setVapidDetails(
   'mailto:lp.photography1313@gmail.com', // Your admin email for push service contact
   process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-  process.env.VAPID_PRIVATE_KEY!
+  process.env.NEXT_PUBLIC_VAPID_PRIVATE_KEY!
 );
 
 export async function GET(request: Request) {
