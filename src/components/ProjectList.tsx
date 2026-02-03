@@ -20,7 +20,7 @@ const PRIORITY_COLORS: Record<string, "info" | "success" | "warning" | "error"> 
     URGENT: "error"
 };
 
-export default function ProjectList({ projects, homeId }: { projects: FutureProject[], homeId: string }) {
+export default function ProjectList({ projects, homeId, existingNames }: { projects: FutureProject[], homeId: string, existingNames: string[] }) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -29,9 +29,9 @@ export default function ProjectList({ projects, homeId }: { projects: FutureProj
             <List disablePadding>
                 {projects.map((project, index) => (
                     <Box key={project.id} sx={{ width: '100%' }}>
-                        <ListItem 
-                            sx={{ 
-                                py: 2, 
+                        <ListItem
+                            sx={{
+                                py: 2,
                                 px: { xs: 1, sm: 2 },
                                 flexDirection: isMobile ? 'column' : 'row',
                                 alignItems: isMobile ? 'flex-start' : 'center',
@@ -86,22 +86,31 @@ export default function ProjectList({ projects, homeId }: { projects: FutureProj
                                             ? `Est. Invest: $${project.estimatedCost.toLocaleString()}`
                                             : 'No cost set'}
                                     </Typography>
+                                    {project.assignedTo && (
+                                        <>
+                                            <Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic' }}>
+                                                {project.assignedTo}
+                                            </Typography>
+                                        </>
+                                    )}
+
                                 </ListItemText>
+
                             </Stack>
 
                             {/* 3. Actions Area - Full width on mobile for better tapping */}
-                            <Stack 
-                                direction="row" 
-                                spacing={1} 
-                                sx={{ 
-                                    mt: isMobile ? 2 : 0, 
+                            <Stack
+                                direction="row"
+                                spacing={1}
+                                sx={{
+                                    mt: isMobile ? 2 : 0,
                                     width: isMobile ? '100%' : 'auto',
                                     justifyContent: isMobile ? 'space-between' : 'flex-end',
                                     pl: isMobile ? { xs: 5.5, sm: 0 } : 0 // Align buttons under text, not under numbers
                                 }}
                             >
                                 <CompleteProjectDialog project={project} homeId={homeId} />
-                                <EditProjectDialog project={project} homeId={homeId} />
+                                <EditProjectDialog project={project} homeId={homeId} existingNames={existingNames} />
                                 <DeleteProjectDialog
                                     projectId={project.id}
                                     projectTitle={project.title}

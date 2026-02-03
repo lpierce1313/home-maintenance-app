@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import {
   Container, Typography, Stack, Box,
-  Breadcrumbs, Paper, Divider, List, ListItem, ListItemIcon, ListItemText, Avatar, GlobalStyles
+  Breadcrumbs, Paper, Divider, List, ListItem, ListItemIcon, ListItemText, Avatar, GlobalStyles,
 } from '@mui/material';
 import Link from 'next/link';
 import ConstructionIcon from '@mui/icons-material/Construction';
@@ -11,6 +11,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ProjectList from "@/components/ProjectList";
 import AddProjectDialog from "@/components/AddProjectDialog";
 import DeleteProjectDialog from "@/components/DeleteProjectDialog";
+import ExportRoadmapButton from "@/components/ExportRoadmapButton";
 
 export default async function HomeProjectsPage({
   params
@@ -32,6 +33,14 @@ export default async function HomeProjectsPage({
 
   if (!home) notFound();
 
+  const allAssignedNames = Array.from(
+    new Set(
+      home.futureProjects
+        .map(p => p.assignedTo)
+        .filter((name): name is string => !!name)
+    )
+  );
+
   const plannedProjects = home.futureProjects.filter(p => p.status !== 'COMPLETED');
   const completedProjects = home.futureProjects.filter(p => p.status === 'COMPLETED');
 
@@ -40,9 +49,9 @@ export default async function HomeProjectsPage({
 
   return (
     <Box sx={{ width: '100%', overflowX: 'hidden' }}>
-      <GlobalStyles styles={{ 
+      <GlobalStyles styles={{
         body: { overflowX: 'hidden', width: '100%' },
-        '*': { boxSizing: 'border-box' } 
+        '*': { boxSizing: 'border-box' }
       }} />
 
       <Container maxWidth="md" sx={{ py: { xs: 2, sm: 4 }, px: { xs: 2, sm: 3 } }}>
@@ -58,9 +67,9 @@ export default async function HomeProjectsPage({
             <Typography variant="caption" color="text.primary" sx={{ whiteSpace: 'nowrap' }}>Improvements</Typography>
           </Breadcrumbs>
 
-          <Stack 
-            direction={{ xs: 'column', sm: 'row' }} 
-            justifyContent="space-between" 
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            justifyContent="space-between"
             alignItems={{ xs: 'stretch', sm: 'center' }}
             spacing={2}
           >
@@ -73,15 +82,25 @@ export default async function HomeProjectsPage({
               </Typography>
             </Box>
             {/* Component must handle fullWidth internally */}
-            <AddProjectDialog homeId={id} />
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={1}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+            >
+              <ExportRoadmapButton
+                homeNickname={home.nickname}
+                projects={plannedProjects}
+              />
+              <AddProjectDialog homeId={id} existingNames={allAssignedNames} />
+            </Stack>
           </Stack>
         </Box>
 
         {/* Summary Statistics */}
         <Paper variant="outlined" sx={{ p: { xs: 2, sm: 3 }, mb: 4, bgcolor: 'action.hover', borderRadius: 4 }}>
-          <Stack 
-            direction="row" 
-            spacing={{ xs: 2, sm: 6 }} 
+          <Stack
+            direction="row"
+            spacing={{ xs: 2, sm: 6 }}
             divider={<Divider orientation="vertical" flexItem />}
             justifyContent="space-around"
           >
@@ -111,10 +130,10 @@ export default async function HomeProjectsPage({
           <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
             <ConstructionIcon color="secondary" fontSize="small" /> Active Roadmap
           </Typography>
-          
+
           <Box sx={{ width: '100%', minWidth: 0 }}>
             {plannedProjects.length > 0 ? (
-              <ProjectList homeId={home.id} projects={plannedProjects} />
+              <ProjectList homeId={home.id} projects={plannedProjects} existingNames={allAssignedNames} />
             ) : (
               <Box sx={{ textAlign: 'center', py: 4, border: '2px dashed', borderColor: 'divider', borderRadius: 4 }}>
                 <Typography variant="body2" color="text.secondary">No active projects.</Typography>
@@ -129,16 +148,16 @@ export default async function HomeProjectsPage({
             <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
               <CheckCircleIcon color="success" fontSize="small" /> Completed
             </Typography>
-            
+
             <Paper variant="outlined" sx={{ borderRadius: 3, width: '100%', overflow: 'hidden' }}>
               <List disablePadding>
                 {completedProjects.map((project, index) => (
                   <Box key={project.id} sx={{ width: '100%' }}>
-                    <ListItem 
-                      sx={{ 
-                        py: 2, 
+                    <ListItem
+                      sx={{
+                        py: 2,
                         px: { xs: 1.5, sm: 3 },
-                        flexDirection: 'row', 
+                        flexDirection: 'row',
                         alignItems: 'center',
                         width: '100%',
                         boxSizing: 'border-box'
@@ -158,10 +177,10 @@ export default async function HomeProjectsPage({
                         }
                         sx={{ m: 0, minWidth: 0 }}
                       />
-                      <DeleteProjectDialog 
-                        projectId={project.id} 
-                        projectTitle={project.title} 
-                        homeId={id} 
+                      <DeleteProjectDialog
+                        projectId={project.id}
+                        projectTitle={project.title}
+                        homeId={id}
                       />
                     </ListItem>
                     {index < completedProjects.length - 1 && <Divider />}

@@ -3,22 +3,37 @@
 import { useState } from 'react';
 import { 
   Dialog, DialogTitle, DialogContent, DialogActions, 
-  TextField, Button, MenuItem, Stack, IconButton, Tooltip
+  TextField, Button, MenuItem, Stack, IconButton, Tooltip,
+  Autocomplete
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { updateProjectAction, deleteProjectAction } from '@/app/actions/projectActions';
 import { FutureProject } from '@/generated/client/client';
 
-export default function EditProjectDialog({ project, homeId }: { project: FutureProject, homeId: string }) {
+// Update props to include existingNames
+interface EditProjectDialogProps {
+  project: FutureProject;
+  homeId: string;
+  existingNames: string[];
+}
+
+export default function EditProjectDialog({ project, homeId, existingNames }: EditProjectDialogProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  // Track assignedTo state for the Autocomplete
+  const [assignedTo, setAssignedTo] = useState(project.assignedTo || '');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!e.currentTarget.reportValidity()) return;
     setLoading(true);
-    await updateProjectAction(new FormData(e.currentTarget));
+    
+    const formData = new FormData(e.currentTarget);
+    // Ensure the Autocomplete value is included in the FormData
+    formData.set('assignedTo', assignedTo);
+    
+    await updateProjectAction(formData);
     setLoading(false);
     setOpen(false);
   };
@@ -63,8 +78,25 @@ export default function EditProjectDialog({ project, homeId }: { project: Future
                 fullWidth 
                 required 
                 inputProps={{ maxLength: 60 }} 
-                helperText="Max 60 characters"
               />
+              
+              {/* Autocomplete for Assigned To */}
+              <Autocomplete
+                freeSolo
+                options={existingNames}
+                value={assignedTo}
+                onInputChange={(event, newValue) => setAssignedTo(newValue)}
+                renderInput={(params) => (
+                  <TextField 
+                    {...params} 
+                    name="assignedTo"
+                    label="Assigned To" 
+                    placeholder="e.g. Luke Pierce"
+                    fullWidth
+                  />
+                )}
+              />
+
               <TextField 
                 select 
                 name="priority" 
@@ -77,6 +109,7 @@ export default function EditProjectDialog({ project, homeId }: { project: Future
                 <MenuItem value="HIGH">High</MenuItem>
                 <MenuItem value="URGENT">Urgent</MenuItem>
               </TextField>
+
               <TextField 
                 name="estimatedCost" 
                 label="Estimated Cost" 

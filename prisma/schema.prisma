@@ -122,6 +122,7 @@ model FutureProject {
   description   String?
   priority      Priority      @default(MEDIUM)
   status        ProjectStatus @default(PLANNING)
+  assignedTo    String?
   estimatedCost Float?
   order         Int
   completedAt   DateTime?

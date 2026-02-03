@@ -42,6 +42,7 @@ export type FutureProjectMinAggregateOutputType = {
   description: string | null
   priority: $Enums.Priority | null
   status: $Enums.ProjectStatus | null
+  assignedTo: string | null
   estimatedCost: number | null
   order: number | null
   completedAt: Date | null
@@ -56,6 +57,7 @@ export type FutureProjectMaxAggregateOutputType = {
   description: string | null
   priority: $Enums.Priority | null
   status: $Enums.ProjectStatus | null
+  assignedTo: string | null
   estimatedCost: number | null
   order: number | null
   completedAt: Date | null
@@ -70,6 +72,7 @@ export type FutureProjectCountAggregateOutputType = {
   description: number
   priority: number
   status: number
+  assignedTo: number
   estimatedCost: number
   order: number
   completedAt: number
@@ -96,6 +99,7 @@ export type FutureProjectMinAggregateInputType = {
   description?: true
   priority?: true
   status?: true
+  assignedTo?: true
   estimatedCost?: true
   order?: true
   completedAt?: true
@@ -110,6 +114,7 @@ export type FutureProjectMaxAggregateInputType = {
   description?: true
   priority?: true
   status?: true
+  assignedTo?: true
   estimatedCost?: true
   order?: true
   completedAt?: true
@@ -124,6 +129,7 @@ export type FutureProjectCountAggregateInputType = {
   description?: true
   priority?: true
   status?: true
+  assignedTo?: true
   estimatedCost?: true
   order?: true
   completedAt?: true
@@ -225,6 +231,7 @@ export type FutureProjectGroupByOutputType = {
   description: string | null
   priority: $Enums.Priority
   status: $Enums.ProjectStatus
+  assignedTo: string | null
   estimatedCost: number | null
   order: number
   completedAt: Date | null
@@ -262,6 +269,7 @@ export type FutureProjectWhereInput = {
   description?: Prisma.StringNullableFilter<"FutureProject"> | string | null
   priority?: Prisma.EnumPriorityFilter<"FutureProject"> | $Enums.Priority
   status?: Prisma.EnumProjectStatusFilter<"FutureProject"> | $Enums.ProjectStatus
+  assignedTo?: Prisma.StringNullableFilter<"FutureProject"> | string | null
   estimatedCost?: Prisma.FloatNullableFilter<"FutureProject"> | number | null
   order?: Prisma.IntFilter<"FutureProject"> | number
   completedAt?: Prisma.DateTimeNullableFilter<"FutureProject"> | Date | string | null
@@ -277,6 +285,7 @@ export type FutureProjectOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  assignedTo?: Prisma.SortOrderInput | Prisma.SortOrder
   estimatedCost?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -295,6 +304,7 @@ export type FutureProjectWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"FutureProject"> | string | null
   priority?: Prisma.EnumPriorityFilter<"FutureProject"> | $Enums.Priority
   status?: Prisma.EnumProjectStatusFilter<"FutureProject"> | $Enums.ProjectStatus
+  assignedTo?: Prisma.StringNullableFilter<"FutureProject"> | string | null
   estimatedCost?: Prisma.FloatNullableFilter<"FutureProject"> | number | null
   order?: Prisma.IntFilter<"FutureProject"> | number
   completedAt?: Prisma.DateTimeNullableFilter<"FutureProject"> | Date | string | null
@@ -310,6 +320,7 @@ export type FutureProjectOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  assignedTo?: Prisma.SortOrderInput | Prisma.SortOrder
   estimatedCost?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -332,6 +343,7 @@ export type FutureProjectScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"FutureProject"> | string | null
   priority?: Prisma.EnumPriorityWithAggregatesFilter<"FutureProject"> | $Enums.Priority
   status?: Prisma.EnumProjectStatusWithAggregatesFilter<"FutureProject"> | $Enums.ProjectStatus
+  assignedTo?: Prisma.StringNullableWithAggregatesFilter<"FutureProject"> | string | null
   estimatedCost?: Prisma.FloatNullableWithAggregatesFilter<"FutureProject"> | number | null
   order?: Prisma.IntWithAggregatesFilter<"FutureProject"> | number
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FutureProject"> | Date | string | null
@@ -346,6 +358,7 @@ export type FutureProjectCreateInput = {
   description?: string | null
   priority?: $Enums.Priority
   status?: $Enums.ProjectStatus
+  assignedTo?: string | null
   estimatedCost?: number | null
   order: number
   completedAt?: Date | string | null
@@ -360,6 +373,7 @@ export type FutureProjectUncheckedCreateInput = {
   description?: string | null
   priority?: $Enums.Priority
   status?: $Enums.ProjectStatus
+  assignedTo?: string | null
   estimatedCost?: number | null
   order: number
   completedAt?: Date | string | null
@@ -374,6 +388,7 @@ export type FutureProjectUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  assignedTo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -388,6 +403,7 @@ export type FutureProjectUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  assignedTo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -402,6 +418,7 @@ export type FutureProjectCreateManyInput = {
   description?: string | null
   priority?: $Enums.Priority
   status?: $Enums.ProjectStatus
+  assignedTo?: string | null
   estimatedCost?: number | null
   order: number
   completedAt?: Date | string | null
@@ -416,6 +433,7 @@ export type FutureProjectUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  assignedTo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -429,6 +447,7 @@ export type FutureProjectUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  assignedTo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -453,6 +472,7 @@ export type FutureProjectCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  assignedTo?: Prisma.SortOrder
   estimatedCost?: Prisma.SortOrder
   order?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
@@ -472,6 +492,7 @@ export type FutureProjectMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  assignedTo?: Prisma.SortOrder
   estimatedCost?: Prisma.SortOrder
   order?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
@@ -486,6 +507,7 @@ export type FutureProjectMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  assignedTo?: Prisma.SortOrder
   estimatedCost?: Prisma.SortOrder
   order?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
@@ -563,6 +585,7 @@ export type FutureProjectCreateWithoutHomeInput = {
   description?: string | null
   priority?: $Enums.Priority
   status?: $Enums.ProjectStatus
+  assignedTo?: string | null
   estimatedCost?: number | null
   order: number
   completedAt?: Date | string | null
@@ -576,6 +599,7 @@ export type FutureProjectUncheckedCreateWithoutHomeInput = {
   description?: string | null
   priority?: $Enums.Priority
   status?: $Enums.ProjectStatus
+  assignedTo?: string | null
   estimatedCost?: number | null
   order: number
   completedAt?: Date | string | null
@@ -618,6 +642,7 @@ export type FutureProjectScalarWhereInput = {
   description?: Prisma.StringNullableFilter<"FutureProject"> | string | null
   priority?: Prisma.EnumPriorityFilter<"FutureProject"> | $Enums.Priority
   status?: Prisma.EnumProjectStatusFilter<"FutureProject"> | $Enums.ProjectStatus
+  assignedTo?: Prisma.StringNullableFilter<"FutureProject"> | string | null
   estimatedCost?: Prisma.FloatNullableFilter<"FutureProject"> | number | null
   order?: Prisma.IntFilter<"FutureProject"> | number
   completedAt?: Prisma.DateTimeNullableFilter<"FutureProject"> | Date | string | null
@@ -632,6 +657,7 @@ export type FutureProjectCreateManyHomeInput = {
   description?: string | null
   priority?: $Enums.Priority
   status?: $Enums.ProjectStatus
+  assignedTo?: string | null
   estimatedCost?: number | null
   order: number
   completedAt?: Date | string | null
@@ -645,6 +671,7 @@ export type FutureProjectUpdateWithoutHomeInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  assignedTo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -658,6 +685,7 @@ export type FutureProjectUncheckedUpdateWithoutHomeInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  assignedTo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -671,6 +699,7 @@ export type FutureProjectUncheckedUpdateManyWithoutHomeInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  assignedTo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -686,6 +715,7 @@ export type FutureProjectSelect<ExtArgs extends runtime.Types.Extensions.Interna
   description?: boolean
   priority?: boolean
   status?: boolean
+  assignedTo?: boolean
   estimatedCost?: boolean
   order?: boolean
   completedAt?: boolean
@@ -701,6 +731,7 @@ export type FutureProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   description?: boolean
   priority?: boolean
   status?: boolean
+  assignedTo?: boolean
   estimatedCost?: boolean
   order?: boolean
   completedAt?: boolean
@@ -716,6 +747,7 @@ export type FutureProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   description?: boolean
   priority?: boolean
   status?: boolean
+  assignedTo?: boolean
   estimatedCost?: boolean
   order?: boolean
   completedAt?: boolean
@@ -731,6 +763,7 @@ export type FutureProjectSelectScalar = {
   description?: boolean
   priority?: boolean
   status?: boolean
+  assignedTo?: boolean
   estimatedCost?: boolean
   order?: boolean
   completedAt?: boolean
@@ -739,7 +772,7 @@ export type FutureProjectSelectScalar = {
   updatedAt?: boolean
 }
 
-export type FutureProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "priority" | "status" | "estimatedCost" | "order" | "completedAt" | "homeId" | "createdAt" | "updatedAt", ExtArgs["result"]["futureProject"]>
+export type FutureProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "priority" | "status" | "assignedTo" | "estimatedCost" | "order" | "completedAt" | "homeId" | "createdAt" | "updatedAt", ExtArgs["result"]["futureProject"]>
 export type FutureProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   home?: boolean | Prisma.HomeDefaultArgs<ExtArgs>
 }
@@ -761,6 +794,7 @@ export type $FutureProjectPayload<ExtArgs extends runtime.Types.Extensions.Inter
     description: string | null
     priority: $Enums.Priority
     status: $Enums.ProjectStatus
+    assignedTo: string | null
     estimatedCost: number | null
     order: number
     completedAt: Date | null
@@ -1196,6 +1230,7 @@ export interface FutureProjectFieldRefs {
   readonly description: Prisma.FieldRef<"FutureProject", 'String'>
   readonly priority: Prisma.FieldRef<"FutureProject", 'Priority'>
   readonly status: Prisma.FieldRef<"FutureProject", 'ProjectStatus'>
+  readonly assignedTo: Prisma.FieldRef<"FutureProject", 'String'>
   readonly estimatedCost: Prisma.FieldRef<"FutureProject", 'Float'>
   readonly order: Prisma.FieldRef<"FutureProject", 'Int'>
   readonly completedAt: Prisma.FieldRef<"FutureProject", 'DateTime'>

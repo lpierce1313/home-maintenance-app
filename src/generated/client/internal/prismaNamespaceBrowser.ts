@@ -177,6 +177,7 @@ export const FutureProjectScalarFieldEnum = {
   description: 'description',
   priority: 'priority',
   status: 'status',
+  assignedTo: 'assignedTo',
   estimatedCost: 'estimatedCost',
   order: 'order',
   completedAt: 'completedAt',
